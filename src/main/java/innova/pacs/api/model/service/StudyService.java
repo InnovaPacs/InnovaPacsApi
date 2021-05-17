@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import innova.pacs.api.dto.StudyDto;
+import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.model.repository.IStudyRepository;
 
 @Service
@@ -15,5 +16,9 @@ public class StudyService {
 	
 	public List<StudyDto> findByPatientFk(Integer patientFk){
 		return this.studyRepository.findByPatientFk(patientFk);
+	}
+	
+	public List<StudyFullDto> findFullStudies(){
+		return this.studyRepository.findFullStudies();
 	}
 }

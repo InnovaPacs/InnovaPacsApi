@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import innova.pacs.api.dto.StudyDto;
+import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.model.service.StudyService;
 
 @RestController
@@ -20,5 +21,10 @@ public class StudyController {
 	@GetMapping("/patients/{patientFk}")
 	public List<StudyDto> getStudiesByPatientFk(@PathVariable Integer patientFk) {
 		return this.studyService.findByPatientFk(patientFk);
+	}
+	
+	@GetMapping("/full")
+	public List<StudyFullDto> studyRepository() {
+		return this.studyService.findFullStudies();
 	}
 }

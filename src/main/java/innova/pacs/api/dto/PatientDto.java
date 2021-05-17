@@ -6,14 +6,16 @@ public class PatientDto {
 	private String middleName;
 	private String familyName;
 	private String givenName;
+	private String gender;
 
-	public PatientDto(Integer pk, String patId, String middleName, String familyName, String givenName) {
+	public PatientDto(Integer pk, String patId, String middleName, String familyName, String givenName, String gender) {
 		super();
 		this.pk = pk;
 		this.patId = patId;
 		this.middleName = middleName;
 		this.familyName = familyName;
 		this.givenName = givenName;
+		this.gender = gender;
 	}
 
 	public String getPatId() {
@@ -55,4 +57,13 @@ public class PatientDto {
 	public void setPk(Integer pk) {
 		this.pk = pk;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 }

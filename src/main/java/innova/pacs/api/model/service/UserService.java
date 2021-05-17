@@ -1,5 +1,6 @@
 package innova.pacs.api.model.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import innova.pacs.api.dto.UserDto;
 import innova.pacs.api.model.User;
 import innova.pacs.api.model.repository.IUserRepository;
 
@@ -37,5 +39,9 @@ public class UserService {
 
 	public User findByUsername(String username) {
 		return this.userRepository.findByUsername(username);
+	}
+	
+	public List<UserDto> getAll(){
+		return this.userRepository.getAll();
 	}
 }

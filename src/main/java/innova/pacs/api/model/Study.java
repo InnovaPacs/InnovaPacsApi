@@ -19,6 +19,7 @@ public class Study {
 	private String studyId;
 	private String studyIuid;
 	private Integer patientFk;
+	private String studyDesc;
 
 	public Integer getPk() {
 		return pk;
@@ -66,6 +67,14 @@ public class Study {
 
 	public void setStudyDate(String studyDate) {
 		this.studyDate = studyDate;
+	}
+
+	public String getStudyDesc() {
+		return studyDesc;
+	}
+
+	public void setStudyDesc(String studyDesc) {
+		this.studyDesc = studyDesc;
 	}
 
 }

@@ -14,6 +14,8 @@ public class Patient {
 	private Integer pk;
 	private Integer patientIdFk;
 	private Integer patNameFk;
+	private String patSex;
+	private String patBirthdate;
 
 	public Integer getPatientIdFk() {
 		return patientIdFk;
@@ -39,4 +41,12 @@ public class Patient {
 		this.pk = pk;
 	}
 
+	public String getPatSex() {
+		return patSex;
+	}
+
+	public void setPatSex(String patSex) {
+		this.patSex = patSex;
+	}
+	
 }
