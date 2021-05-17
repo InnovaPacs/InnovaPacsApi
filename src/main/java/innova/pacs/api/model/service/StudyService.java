@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.model.repository.IStudyRepository;
+import innova.pacs.api.security.SecurityUtil;
 
 @Service
 public class StudyService {
@@ -19,6 +20,6 @@ public class StudyService {
 	}
 	
 	public List<StudyFullDto> findFullStudies(){
-		return this.studyRepository.findFullStudies();
+		return this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
 	}
 }

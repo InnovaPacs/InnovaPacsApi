@@ -14,6 +14,7 @@ public class Series {
 	private Integer pk;
 	private Integer studyFk;
 	private String modality;
+	private String institution;
 
 	public Integer getPk() {
 		return pk;
@@ -39,4 +40,12 @@ public class Series {
 		this.modality = modality;
 	}
 
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+	
 }

@@ -48,5 +48,13 @@ public class Patient {
 	public void setPatSex(String patSex) {
 		this.patSex = patSex;
 	}
+
+	public String getPatBirthdate() {
+		return patBirthdate;
+	}
+
+	public void setPatBirthdate(String patBirthdate) {
+		this.patBirthdate = patBirthdate;
+	}
 	
 }

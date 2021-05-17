@@ -46,6 +46,11 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
 			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
 			+ " JOIN Study study ON study.patientFk = patientId.pk "
-			+ " JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk")
-	public List<StudyFullDto> findFullStudies();
+			+ " JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id "
+			+ "	where suser.username = :username ")
+	public List<StudyFullDto> findFullStudiesByUsername(@Param("username") String username);
 }
