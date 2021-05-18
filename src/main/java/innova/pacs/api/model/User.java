@@ -1,16 +1,23 @@
 package innova.pacs.api.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NamedNativeQuery;
 
@@ -36,7 +43,7 @@ import innova.pacs.api.dto.UserDto;
 				"suser.email as email,\n" + 
 				"suser.username as username,\n" + 
 				"suser.active as active,\n" + 
-				"(select distinct string_agg(name,',') from institution_user iu\n" + 
+				"(select distinct string_agg(name,', ') from institution_user iu\n" + 
 				"	join institutions institution ON iu.institution_id = institution.id where iu.user_id = suser.id) as institutions\n" + 
 				"from sec_users suser", 
 		resultSetMapping = "mappingUserQueryDto")
@@ -54,6 +61,20 @@ public class User {
 	private Date createdAt;
 	private Date updatedAt;
 	private Boolean active;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name="user_role", joinColumns= @JoinColumn(name="user_id"),
+	inverseJoinColumns=@JoinColumn(name="role_id"),
+	uniqueConstraints= {@UniqueConstraint(columnNames= {"user_id", "role_id"})})
+	private List<Role> roles;
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public Long getId() {
 		return id;

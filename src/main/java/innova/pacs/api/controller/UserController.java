@@ -3,8 +3,7 @@ package innova.pacs.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +27,9 @@ public class UserController {
 		return this.userService.userReportQuery();
 	}
 	
-	@PostMapping()
-	public UserDto create(@RequestBody User user) {
-		System.out.println(user);
-		return null;
+	@PostMapping("/")
+	public User Usercreate(@RequestBody User user) {
+		return this.userService.create(user);
 	}
 	
 	@PutMapping("/{id}")
@@ -39,6 +37,7 @@ public class UserController {
 		return this.userService.update(id, user);
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/{id}")
 	public UserDto getById(@PathVariable("id") Long id) {
 		return this.userService.getById(id);

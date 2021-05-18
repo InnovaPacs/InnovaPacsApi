@@ -17,7 +17,7 @@ import innova.pacs.api.model.repository.IUserRepository;
 public class UserService {
 	@Autowired
 	private IUserRepository userRepository;
-	
+
 	public Page<User> findAll(Pageable pageable) {
 		return this.userRepository.findAll(pageable);
 	}
@@ -33,42 +33,46 @@ public class UserService {
 	public User update(Long id, User user) {
 		Optional<User> optUser = this.findById(id);
 		User currentUser = null;
-		
-		if(optUser.isPresent()) {
+
+		if (optUser.isPresent()) {
 			currentUser = optUser.get();
-			
+
 			currentUser.setActive(user.getActive());
 			currentUser.setUsername(user.getUsername());
 			currentUser.setEmail(user.getEmail());
-			
-			if(user.getPassword() != null) {
+
+			if (user.getPassword() != null) {
 				currentUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 			}
-			
+
 			currentUser = this.userRepository.save(currentUser);
 			currentUser.setPassword(null);
 		}
-	
+
 		return currentUser;
 	}
 
 	public User create(User user) {
-		return this.userRepository.save(user);
+		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		user = this.userRepository.save(user);
+		user.setPassword(null);
+
+		return user;
 	}
 
 	public User findByUsername(String username) {
 		return this.userRepository.findByUsername(username);
 	}
-	
-	public List<UserDto> getAll(){
+
+	public List<UserDto> getAll() {
 		return this.userRepository.getAll();
 	}
-	
+
 	public UserDto getById(Long id) {
 		return this.userRepository.getById(id);
 	}
-	
-	public List<UserDto> userReportQuery(){
+
+	public List<UserDto> userReportQuery() {
 		return this.userRepository.userReportQuery();
 	}
 }
