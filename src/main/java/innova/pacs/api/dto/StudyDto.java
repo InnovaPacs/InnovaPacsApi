@@ -14,10 +14,11 @@ public class StudyDto {
 	private Integer patientFk;
 	private String description;
 	private String modality;
+	private String institution;
 
 	
 	public StudyDto(Integer pk, Date createdTime, String studyDate, String studyId, String studyIuid,
-			Integer patientFk, String description, String modality) {
+			Integer patientFk, String description, String modality, String institution) {
 		super();
 		this.pk = pk;
 		this.createdTime = createdTime;
@@ -27,6 +28,7 @@ public class StudyDto {
 		this.patientFk = patientFk;
 		this.description = description;
 		this.modality = modality;
+		this.institution = institution;
 	}
 
 	public Integer getPk() {
@@ -92,5 +94,12 @@ public class StudyDto {
 	public void setModality(String modality) {
 		this.modality = modality;
 	}
-	
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
 }

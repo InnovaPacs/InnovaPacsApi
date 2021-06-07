@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,15 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
-
+	@Value("${client.id}")
+	private String clientId;
+	
+	@Value("${client.secret}")
+	private String clientSecret;
+	
+	@Value("${app.token.time}")
+	private Integer time;
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
@@ -39,12 +48,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("angularapp")
-		.secret(passwordEncoder.encode("12345"))
+		clients.inMemory().withClient(clientId)
+		.secret(passwordEncoder.encode(clientSecret))
 		.scopes("read", "write")
 		.authorizedGrantTypes("password", "refresh_token")
-		.accessTokenValiditySeconds(3600)
-		.refreshTokenValiditySeconds(3600);
+		.accessTokenValiditySeconds(time)
+		.refreshTokenValiditySeconds(time);	
 	}
 
 	@Override

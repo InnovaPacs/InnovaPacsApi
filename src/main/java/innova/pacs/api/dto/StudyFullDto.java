@@ -1,10 +1,7 @@
 package innova.pacs.api.dto;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -27,16 +24,14 @@ public class StudyFullDto implements Serializable {
 	private String desc;
 	private String modality;
 	private Integer numInstances;
-	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;
-	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
-	
+	private String institution;
 	
 
 	public StudyFullDto(Integer patientPk, String patientId, String middleName, String familyName, String givenName,
-			String patientSex, Integer studyPk, Date studyCreatedTime, String studyDate, String studyId,
-			String studyIuid, String studyDesc, String seriesModality, Integer numInstances, String patientBithDate) {
+			String patientSex, Integer studyPk, Date studyCreatedTime, Date studyDate, String studyId,
+			String studyIuid, String studyDesc, String seriesModality, Integer numInstances, Date patientBithDate, String institution) {
 		super();
 		this.patientPk = patientPk;
 		this.patientId = patientId;
@@ -46,13 +41,14 @@ public class StudyFullDto implements Serializable {
 		this.patientSex = patientSex;
 		this.studyPk = studyPk;
 		this.createdTime = studyCreatedTime;
-		this.studyDate = studyDate;
+		this.date = studyDate;
 		this.studyId = studyId;
 		this.iuid = studyIuid;
 		this.desc = studyDesc;
 		this.modality = seriesModality;
 		this.numInstances = numInstances;
-		this.patientBithDate = patientBithDate;
+		this.birthDate = patientBithDate;
+		this.institution = institution;
 		
 	}
 
@@ -169,23 +165,7 @@ public class StudyFullDto implements Serializable {
 	}
 
 	public Date getDate() {
-		Date tradeDate = null;
-		
-		if(this.studyDate == null) {
-			return null;
-		}
-		
-		try {
-			
-			tradeDate = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH).parse(this.studyDate);
-			return tradeDate;
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		return tradeDate;
-		
+		return this.date;
 	}
 
 	public void setDate(Date date) {
@@ -201,24 +181,18 @@ public class StudyFullDto implements Serializable {
 	}
 
 	public Date getBirthDate() {
-		Date tradeDate = null;
-		
-		if(this.patientBithDate == null) {
-			return null;
-		}
-		
-		try {
-			
-			tradeDate = new SimpleDateFormat("yyyymmdd", Locale.ENGLISH).parse(this.patientBithDate);
-			return tradeDate;
-			
-		} catch (ParseException e) {
-			return null;
-		}
-		
+		return this.birthDate;
 	}
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
 	}
 }

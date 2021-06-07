@@ -1,5 +1,7 @@
 package innova.pacs.api.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Patient {
 	private Integer patNameFk;
 	private String patSex;
 	private String patBirthdate;
+	private Date birthdate;
 
 	public Integer getPatientIdFk() {
 		return patientIdFk;
@@ -55,6 +58,14 @@ public class Patient {
 
 	public void setPatBirthdate(String patBirthdate) {
 		this.patBirthdate = patBirthdate;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
 	}
 	
 }

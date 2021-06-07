@@ -17,7 +17,7 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 	
-	@GetMapping("/")
+	@GetMapping()
 	public List<PatientDto> getAllPatients() {
 		return this.patientService.getAllUsers();
 	}

@@ -19,7 +19,7 @@ public class InstitutioController {
 	@Autowired
 	private InstitutionService institutionService; 
 	
-	@GetMapping("/")
+	@GetMapping()
 	public List<Institution> getAllInstitutions() {
 		return institutionService.findAll();
 	}

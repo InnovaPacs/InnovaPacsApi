@@ -12,6 +12,9 @@ import innova.pacs.api.model.Patient;
 
 public interface IPatientRepository extends PagingAndSortingRepository<Patient, Integer>{
 	
+	@Query(value = "SELECT patient.* FROM patient patient WHERE patient.birthdate is null", nativeQuery = true)
+	public List<Patient> getByBirthdateOnNull();
+	
 	@Query(value = "SELECT NEW innova.pacs.api.dto.PatientDto ("
 			+ " p.pk, "
 			+ "	pi.patId, "

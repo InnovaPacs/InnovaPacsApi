@@ -20,6 +20,7 @@ public class Study {
 	private String studyIuid;
 	private Integer patientFk;
 	private String studyDesc;
+	private Date date;
 
 	public Integer getPk() {
 		return pk;
@@ -77,4 +78,11 @@ public class Study {
 		this.studyDesc = studyDesc;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }
