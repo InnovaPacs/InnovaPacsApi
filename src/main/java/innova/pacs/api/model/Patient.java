@@ -19,6 +19,7 @@ public class Patient {
 	private String patSex;
 	private String patBirthdate;
 	private Date birthdate;
+	private String email;
 
 	public Integer getPatientIdFk() {
 		return patientIdFk;
@@ -67,5 +68,12 @@ public class Patient {
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
-	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

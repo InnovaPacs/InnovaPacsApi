@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import innova.pacs.api.dto.EmailConfigurationDto;
 import innova.pacs.api.dto.PatientDto;
 import innova.pacs.api.model.Patient;
 import innova.pacs.api.model.repository.IPatientRepository;
@@ -36,6 +37,25 @@ public class PatientService {
 	public PatientDto getById(Integer id){
 		return this.patientRepository.getById(id);
 	}
+	
+	/**
+	 * Find all patients
+	 * @return
+	 * @throws Exception 
+	 */
+	@Transactional
+	public Patient configureEmail(EmailConfigurationDto emailConfigurationDto) throws Exception{
+		Patient patient = patientRepository.findByPk(emailConfigurationDto.getPatientPk());
+		
+		if(patient == null) {
+			throw new Exception("Paciente no existe");
+		}
+		
+		patient.setEmail(emailConfigurationDto.getEmail());
+		
+		return this.patientRepository.save(patient);
+	}
+	
 	
 	@Transactional
 	public void refactorPatientBirthDate() {

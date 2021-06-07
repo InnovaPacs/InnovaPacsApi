@@ -7,8 +7,9 @@ public class PatientDto {
 	private String familyName;
 	private String givenName;
 	private String gender;
+	private String email; 
 
-	public PatientDto(Integer pk, String patId, String middleName, String familyName, String givenName, String gender) {
+	public PatientDto(Integer pk, String patId, String middleName, String familyName, String givenName, String gender, String email) {
 		super();
 		this.pk = pk;
 		this.patId = patId;
@@ -16,6 +17,7 @@ public class PatientDto {
 		this.familyName = familyName;
 		this.givenName = givenName;
 		this.gender = gender;
+		this.email = email;
 	}
 
 	public String getPatId() {
@@ -66,4 +68,11 @@ public class PatientDto {
 		this.gender = gender;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

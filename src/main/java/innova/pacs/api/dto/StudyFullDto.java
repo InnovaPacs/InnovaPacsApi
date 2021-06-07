@@ -27,11 +27,12 @@ public class StudyFullDto implements Serializable {
 	private Date date;
 	private Date birthDate;
 	private String institution;
+	private String email;
 	
 
 	public StudyFullDto(Integer patientPk, String patientId, String middleName, String familyName, String givenName,
 			String patientSex, Integer studyPk, Date studyCreatedTime, Date studyDate, String studyId,
-			String studyIuid, String studyDesc, String seriesModality, Integer numInstances, Date patientBithDate, String institution) {
+			String studyIuid, String studyDesc, String seriesModality, Integer numInstances, Date patientBithDate, String institution, String email) {
 		super();
 		this.patientPk = patientPk;
 		this.patientId = patientId;
@@ -49,6 +50,7 @@ public class StudyFullDto implements Serializable {
 		this.numInstances = numInstances;
 		this.birthDate = patientBithDate;
 		this.institution = institution;
+		this.email = email;
 		
 	}
 
@@ -194,5 +196,13 @@ public class StudyFullDto implements Serializable {
 
 	public void setInstitution(String institution) {
 		this.institution = institution;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

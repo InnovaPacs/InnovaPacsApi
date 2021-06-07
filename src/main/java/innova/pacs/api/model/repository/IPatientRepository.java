@@ -15,13 +15,16 @@ public interface IPatientRepository extends PagingAndSortingRepository<Patient, 
 	@Query(value = "SELECT patient.* FROM patient patient WHERE patient.birthdate is null", nativeQuery = true)
 	public List<Patient> getByBirthdateOnNull();
 	
+	public Patient findByPk(@Param("pk") Integer pk);
+	
 	@Query(value = "SELECT NEW innova.pacs.api.dto.PatientDto ("
 			+ " p.pk, "
 			+ "	pi.patId, "
 			+ "	pn.middleName, "
 			+ "	pn.familyName, "
 			+ "	pn.givenName, "
-			+ " p.patSex ) "
+			+ " p.patSex, "
+			+ "	p.email ) "
 			+ "	FROM Patient p "
 			+ "	JOIN PatientId pi on p.patientIdFk = pi.pk "
 			+ "	JOIN PersonName pn on p.patNameFk = pn.pk ")
@@ -33,7 +36,8 @@ public interface IPatientRepository extends PagingAndSortingRepository<Patient, 
 			+ "	pn.middleName, "
 			+ "	pn.familyName, "
 			+ "	pn.givenName, "
-			+ " p.patSex ) "
+			+ " p.patSex,"
+			+ "	p.email ) "
 			+ "	FROM Patient p "
 			+ "	JOIN PatientId pi on p.patientIdFk = pi.pk "
 			+ "	JOIN PersonName pn on p.patNameFk = pn.pk "
