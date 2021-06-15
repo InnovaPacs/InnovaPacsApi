@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
+import innova.pacs.api.dto.StudyNotificationDto;
 import innova.pacs.api.model.Study;
 
 public interface IStudyRepository extends PagingAndSortingRepository<Study, Integer> {
@@ -93,4 +94,17 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			@Param("name") String name, @Param("institution") String institution, @Param("gender") String gender,
 			@Param("instances") Integer instances, @Param("modality") String modality,
 			@Param("patientId") String patientId, @Param("studyDescription") String studyDescription, @Param("studyDateInit")  Date studyDateInit, @Param("studyDateEnd")  Date studyDateEnd);
+	
+	@Query(value = "SELECT distinct new innova.pacs.api.dto.StudyNotificationDto( "
+			+ "	study.studyIuid, "
+			+ "	patient.email, "
+			+ "	personName.familyName, "
+			+ "	personName.givenName, "
+			+ "	personName.middleName ) "
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ "WHERE study.studyIuid = :studyIuid ")
+	public StudyNotificationDto findPatientByUiud(@Param("studyIuid") String studyIuid);
 }
