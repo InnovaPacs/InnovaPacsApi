@@ -12,7 +12,9 @@
 	<groupId>innova.pacs.api</groupId>
 	<artifactId>innova.pacs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
 	<name>innova.pacs</name>
+	
 	<description>Innova pacs</description>
 	<properties>
 		<java.version>11</java.version>

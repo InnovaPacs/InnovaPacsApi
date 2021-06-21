@@ -64,11 +64,13 @@ public class PatientService {
 		for (Patient patient : lstPatient) {
 			if (patient.getPatBirthdate() != null) {
 				try {
-
-					Date tradeDate = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(patient.getPatBirthdate());
-					patient.setBirthdate(tradeDate);
 					
-					this.patientRepository.save(patient);
+					if(patient.getPatBirthdate() != null && "*".equals(patient.getPatBirthdate())) {
+						Date tradeDate = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(patient.getPatBirthdate());
+						patient.setBirthdate(tradeDate);
+						this.patientRepository.save(patient);	
+					}
+					
 					
 				} catch (ParseException e) {
 					e.printStackTrace();
