@@ -26,6 +26,6 @@ public class InstitutioController {
 	
 	@PostMapping("/configuration")
 	public InstitutionUser getAllInstitutions(@RequestBody InstitutionUser institutionUser) {
-		return institutionService.configurare(institutionUser);
+		return institutionService.configure(institutionUser);
 	}
 }

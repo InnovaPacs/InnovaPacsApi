@@ -57,6 +57,9 @@ public class PatientService {
 	}
 	
 	
+	/**
+	 * Change birth date of patients
+	 */
 	@Transactional
 	public void refactorPatientBirthDate() {
 		List<Patient> lstPatient = this.patientRepository.getByBirthdateOnNull();
@@ -65,7 +68,7 @@ public class PatientService {
 			if (patient.getPatBirthdate() != null) {
 				try {
 					
-					if(patient.getPatBirthdate() != null && "*".equals(patient.getPatBirthdate())) {
+					if(patient.getPatBirthdate() != null && !"*".equals(patient.getPatBirthdate())) {
 						Date tradeDate = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(patient.getPatBirthdate());
 						patient.setBirthdate(tradeDate);
 						this.patientRepository.save(patient);	

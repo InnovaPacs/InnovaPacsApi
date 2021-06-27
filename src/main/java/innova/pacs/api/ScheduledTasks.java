@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import innova.pacs.api.model.service.InstitutionService;
 import innova.pacs.api.model.service.PatientService;
 import innova.pacs.api.model.service.StudyService;
 
@@ -21,11 +22,13 @@ public class ScheduledTasks {
     private StudyService studyService;
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private InstitutionService institutionService; 
     
 	@Scheduled(cron = "0 0 * * * ?")
 	public void scheduleTaskRefactorStudyDate() {
 	    logger.info("Refactor Study Date :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
-	    this.studyService.refactorSturyDate();
+	    this.studyService.refactorStudyDate();
 	}
 	
 	@Scheduled(cron = "0 30 * * * ?")
@@ -33,5 +36,10 @@ public class ScheduledTasks {
 	    logger.info("Refactor Patient Birth Date :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.patientService.refactorPatientBirthDate();
 	}
-
+	
+	@Scheduled(cron = "0 11 * * * ?")
+	public void scheduleTaskConfigureInstitutions() {
+	    logger.info("Configure institutions :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
+	    this.institutionService.configureInstitutions();
+	}
 }

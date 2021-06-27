@@ -33,16 +33,38 @@ public class StudyService {
 	@Value("${pacs.url}")
 	private String pacsUrl;
 
+	/**
+	 * Find By Patient Fk
+	 * @param patientFk
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public List<StudyDto> findByPatientFk(Integer patientFk) {
 		return this.studyRepository.findByPatientFk(patientFk);
 	}
 
+	/**
+	 * Find Full Studies
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public List<StudyFullDto> findFullStudies() {
 		return this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
 	}
 
+	/**
+	 * Find Full Studies Filter
+	 * @param name
+	 * @param institution
+	 * @param gender
+	 * @param instances
+	 * @param modality
+	 * @param patientId
+	 * @param studyDateEnd
+	 * @param studyDateInit
+	 * @param studyDescription
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public List<StudyFullDto> findFullStudiesFilter(String name, String institution, String gender, Integer instances,
 			String modality, String patientId, String studyDateEnd, String studyDateInit, String studyDescription) {
@@ -69,8 +91,11 @@ public class StudyService {
 		// institution, patientId, patientSex, studyDesc, modsInStudy
 	}
 
+	/**
+	 * Refactor Study Date
+	 */
 	@Transactional
-	public void refactorSturyDate() {
+	public void refactorStudyDate() {
 		List<Study> lstStudy = this.studyRepository.getBySrudyDateOnNull();
 
 		for (Study study : lstStudy) {
@@ -95,6 +120,7 @@ public class StudyService {
 	 * @return
 	 * @throws Exception
 	 */
+	@Transactional(readOnly = true)	
 	public StudyNotificationDto findPatientByUiud(String studyIuid) throws Exception {
 		StudyNotificationDto studyNotification = this.studyRepository.findPatientByUiud(studyIuid);
 
@@ -105,6 +131,11 @@ public class StudyService {
 		return studyNotification;
 	}
 
+	/**
+	 * Send notification
+	 * @param studyIuid
+	 * @throws Exception
+	 */
 	@Async
 	public void sendNotification(String studyIuid) throws Exception {
 		StudyNotificationDto studyNotification = this.findPatientByUiud(studyIuid);

@@ -13,6 +13,10 @@ public class StudyQueryAttrsService {
 	@Autowired
 	private IStudyQueryAttrsRepository studyQueryAttrsRepository;
 	
+	/**
+	 * Get All Modalities
+	 * @return List<ModalityDto>
+	 */
 	public List<ModalityDto> getAllModalities(){
 		return this.studyQueryAttrsRepository.getAllModalities();
 	}

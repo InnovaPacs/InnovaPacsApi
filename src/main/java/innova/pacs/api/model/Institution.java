@@ -15,8 +15,6 @@ public class Institution {
 	private Long id;
 	@Column(unique = true)
 	private String name;
-	@Column(unique = true)
-	private String code;
 
 	public Long getId() {
 		return id;
@@ -32,14 +30,6 @@ public class Institution {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 }

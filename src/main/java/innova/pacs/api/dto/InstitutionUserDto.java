@@ -20,6 +20,4 @@ public class InstitutionUserDto implements Serializable {
 	public void setInstitutionId(Integer institutionId) {
 		this.institutionId = institutionId;
 	}
-	
-	
 }
