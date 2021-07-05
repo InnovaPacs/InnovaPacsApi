@@ -42,4 +42,10 @@ public class ScheduledTasks {
 	    logger.info("Configure institutions :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.institutionService.configureInstitutions();
 	}
+	
+	@Scheduled(cron = "0 * * * * ?")
+	public void scheduleTaskConfigureInstitutionsStudy() {
+	    logger.info("Configure institutionsStudies :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
+	    this.studyService.configureIntitutionStudies();
+	}
 }

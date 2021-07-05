@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.dto.StudyNotificationDto;
@@ -107,4 +108,16 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ " JOIN Study study ON study.patientFk = patientId.pk "
 			+ "WHERE study.studyIuid = :studyIuid ")
 	public StudyNotificationDto findPatientByUiud(@Param("studyIuid") String studyIuid);
+	
+	@Query( value = "SELECT new innova.pacs.api.dto.InstitutionStudyDto( institution.id, "
+			+ "institution.name, "
+			+ "study.pk ) "
+			+ "from Series series "
+			+ "join Study study on series.studyFk = study.pk "
+			+ "join Institution institution on institution.name = series.institution "
+			+ "where study.institutionFk is null "
+			+ "group by institution.name, study.pk, institution.id ")
+	public List<InstitutionStudyDto> findStudiesToConfigure();
+	
+	public Study findByPk(@Param("pk") Integer pk);
 }

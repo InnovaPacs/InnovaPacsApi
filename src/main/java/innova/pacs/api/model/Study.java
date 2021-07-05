@@ -19,6 +19,7 @@ public class Study {
 	private String studyId;
 	private String studyIuid;
 	private Integer patientFk;
+	private Long institutionFk;
 	private String studyDesc;
 	private Date date;
 
@@ -85,4 +86,13 @@ public class Study {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public Long getInstitutionFk() {
+		return institutionFk;
+	}
+
+	public void setInstitutionFk(Long institutionFk) {
+		this.institutionFk = institutionFk;
+	}
+
 }

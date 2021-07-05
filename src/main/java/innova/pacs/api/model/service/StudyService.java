@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.dto.StudyNotificationDto;
@@ -149,5 +150,15 @@ public class StudyService {
 
 		emailService.sendMessageWithAttachment(studyNotification.getEmail(), "Innova Pacs",
 				SmtpUtil.transformFromTemplate(templates), null);
+	}
+	
+	public void configureIntitutionStudies() {
+ 		List<InstitutionStudyDto> lstInsitutionStudy = this.studyRepository.findStudiesToConfigure();
+ 		
+ 		for (InstitutionStudyDto institutionStudyDto : lstInsitutionStudy) {
+			Study study = this.studyRepository.findByPk(institutionStudyDto.getStudyPk());
+			study.setInstitutionFk(institutionStudyDto.getInstitutionId());
+			this.studyRepository.save(study);
+		}
 	}
 }
