@@ -88,7 +88,6 @@ public class StudyService {
 
 		return this.studyRepository.findFullStudiesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
 				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
-		// institution, patientId, patientSex, studyDesc, modsInStudy
 	}
 
 	/**
