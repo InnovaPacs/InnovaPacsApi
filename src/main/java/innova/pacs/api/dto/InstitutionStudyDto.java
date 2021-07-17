@@ -1,22 +1,22 @@
 package innova.pacs.api.dto;
 
 public class InstitutionStudyDto {
-	private Long institutionId;
+	private Integer institutionId;
 	private String institutionName;
 	private Integer studyPk;
 
-	public InstitutionStudyDto(Long institutionId, String institutionName, Integer studyPk) {
+	public InstitutionStudyDto(Integer institutionId, String institutionName, Integer studyPk) {
 		super();
 		this.institutionId = institutionId;
 		this.institutionName = institutionName;
 		this.studyPk = studyPk;
 	}
 
-	public Long getInstitutionId() {
+	public Integer getInstitutionId() {
 		return institutionId;
 	}
 
-	public void setInstitutionId(Long institutionId) {
+	public void setInstitutionId(Integer institutionId) {
 		this.institutionId = institutionId;
 	}
 

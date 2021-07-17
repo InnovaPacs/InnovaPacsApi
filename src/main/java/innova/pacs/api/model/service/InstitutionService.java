@@ -1,6 +1,7 @@
 package innova.pacs.api.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,17 @@ public class InstitutionService {
 	@Transactional(readOnly = true)
 	public List<Institution> findAll(){
 		return (List<Institution>) this.institutionRepository.findAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public Institution findById(Integer id){
+		Optional<Institution> institution = this.institutionRepository.findById(id);
+		
+		if(institution.isPresent()) {
+			return institution.get();
+		}
+		
+		return null;
 	}
 	
 	/**
