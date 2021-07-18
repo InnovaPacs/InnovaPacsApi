@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import innova.pacs.api.dto.ModalityReportDto;
+import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
@@ -120,4 +122,32 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 	public List<InstitutionStudyDto> findStudiesToConfigure();
 	
 	public Study findByPk(@Param("pk") Integer pk);
+	
+//	public Study reportModalitiesByInstitution(@Param("pk") Integer pk);
+	
+	@Query(value = "select new innova.pacs.api.dto.ModalityReportDto( "
+			+ "sqa.modsInStudy, "
+			+ "count(study.pk), "
+			+ "sum( sqa.numInstances), "
+			+ "count( patient.pk) ) "
+			+ "from Institution inst "
+			+ "join Study study on study.institutionFk = inst.id "
+			+ "join StudyQueryAttrs sqa on study.pk = sqa.studyFk "
+			+ "join Patient patient on study.patientFk = patient.pk "
+			+ "where inst.id = :institutionId "
+			+ "group by sqa.modsInStudy")
+	public List<ModalityReportDto> modalityReportByInstitution(@Param("institutionId") Integer institutionId);
+	
+	@Query(value = "select new innova.pacs.api.dto.InstitutionReportDto( "
+			+ "inst.id, "
+			+ "count(study.pk), "
+			+ "sum( sqa.numInstances), "
+			+ "count( patient.pk) ) "
+			+ "from Institution inst "
+			+ "join Study study on study.institutionFk = inst.id "
+			+ "join StudyQueryAttrs sqa on study.pk = sqa.studyFk "
+			+ "join Patient patient on study.patientFk = patient.pk "
+			+ "where inst.id = :institutionId "
+			+ "group by inst.id")
+	public List<InstitutionReportDto> institutionRepository(@Param("institutionId") Integer institutionId);
 }

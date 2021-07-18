@@ -14,6 +14,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import innova.pacs.api.dto.ModalityReportDto;
+import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
@@ -105,7 +107,7 @@ public class StudyService {
 					Date tradeDate = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(study.getStudyDate());
 					study.setDate(tradeDate);
 
-					studyRepository.save(study);
+					this.studyRepository.save(study);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -152,6 +154,9 @@ public class StudyService {
 				SmtpUtil.transformFromTemplate(templates), null);
 	}
 	
+	/**
+	 * Configure institutions and studies
+	 */
 	public void configureIntitutionStudies() {
  		List<InstitutionStudyDto> lstInsitutionStudy = this.studyRepository.findStudiesToConfigure();
  		
@@ -160,5 +165,23 @@ public class StudyService {
 			study.setInstitutionFk(institutionStudyDto.getInstitutionId());
 			this.studyRepository.save(study);
 		}
+	}
+	
+	/**
+	 * Get Modality report by institution
+	 * @param institutionId
+	 * @return
+	 */
+	public List<ModalityReportDto> modalityReportByInstitution(Integer institutionId) {
+		return this.studyRepository.modalityReportByInstitution(institutionId);
+	}
+	
+	/**
+	 * Get Institution report by institution
+	 * @param institutionId
+	 * @return
+	 */
+	public List<InstitutionReportDto> institutionRepository(Integer institutionId){
+		return this.studyRepository.institutionRepository(institutionId);
 	}
 }

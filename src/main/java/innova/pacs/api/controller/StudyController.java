@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import innova.pacs.api.dto.InstitutionReportDto;
+import innova.pacs.api.dto.ModalityReportDto;
 import innova.pacs.api.dto.StudyDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.model.service.StudyService;
@@ -37,5 +39,15 @@ public class StudyController {
 			@RequestParam(required = false) String studyDateEnd, @RequestParam(required = false) String studyDateInit, @RequestParam(required = false) String studyDescription) {
 
 		return this.studyService.findFullStudiesFilter(name, institution, gender, instances, modality, patientId, studyDateEnd, studyDateInit, studyDescription);
+	}
+	
+	@GetMapping("/institutions/{institutionId}/modalityReport")
+	public List<ModalityReportDto> modalityReportByInstitution(@PathVariable("institutionId") Integer institutionId) {
+		return this.studyService.modalityReportByInstitution(institutionId);
+	}
+	
+	@GetMapping("/institutions/{institutionId}/report")
+	public List<InstitutionReportDto> institutionReportByInstitution(@PathVariable("institutionId") Integer institutionId) {
+		return this.studyService.institutionRepository(institutionId);
 	}
 }
