@@ -15,6 +15,7 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -134,7 +135,7 @@ public class Dcm4cheeClient {
 	}
 
 	/**
-	 * Gell all AE Titles
+	 * Get all AE Titles
 	 * 
 	 * @return
 	 * @throws Exception
@@ -151,16 +152,20 @@ public class Dcm4cheeClient {
 
 		HttpResponse response = httpClient.execute(request);
 
-		HttpEntity entity = response.getEntity();
-
-		JSONArray aeTitleArray = new JSONArray(EntityUtils.toString(entity));
+		int statusCode = response.getStatusLine().getStatusCode();
 		List<AETDto> lstAet = new ArrayList<AETDto>();
 
-		for (int i = 0; i < aeTitleArray.length(); i++) {
-			JSONObject objects = aeTitleArray.optJSONObject(i);
-			AETDto aet = new AETDto();
-			aet.setName(objects.getString("dicomAETitle"));
-			lstAet.add(aet);
+		if (statusCode == HttpStatus.SC_OK) {
+			HttpEntity entity = response.getEntity();
+
+			JSONArray aeTitleArray = new JSONArray(EntityUtils.toString(entity));
+
+			for (int i = 0; i < aeTitleArray.length(); i++) {
+				JSONObject objects = aeTitleArray.optJSONObject(i);
+				AETDto aet = new AETDto();
+				aet.setName(objects.getString("dicomAETitle"));
+				lstAet.add(aet);
+			}
 		}
 
 		return lstAet;
@@ -175,7 +180,7 @@ public class Dcm4cheeClient {
 //		https://192.168.3.108:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/1.2.392.200036.9125.2.20839136157173252.64951091883.41568/export/dicom:DCM4CHEE?
 		String url = String.format("https://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies/%s/export/dicom:%s?", this.host,
 				this.apiPort, uuid, aets);
-		
+
 		System.out.println("Url: " + url);
 		HttpPost request = new HttpPost(url);
 		HttpClient httpClient = this.getClient();

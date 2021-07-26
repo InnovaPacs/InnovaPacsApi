@@ -33,8 +33,11 @@ public class StudyService {
 	@Autowired
 	private IStudyRepository studyRepository;
 
-	@Value("${pacs.url}")
-	private String pacsUrl;
+	@Value("${previewer.host}")
+	private String previewerHost;
+	
+	@Value("${previewer.port}")
+	private String previewerPort;
 
 	/**
 	 * Find By Patient Fk
@@ -148,7 +151,7 @@ public class StudyService {
 						studyNotification.getFamilyName() != null ? studyNotification.getFamilyName() : "",
 						studyNotification.getGivenName() != null ? studyNotification.getGivenName() : "",
 						studyNotification.getMiddleName() != null ? studyNotification.getMiddleName() : ""));
-		templates.put("url", String.format("%s/viewer.html?studyUID=%s", pacsUrl, studyNotification.getStudyIuid()));
+		templates.put("url", String.format("http://%s:%s/viewer.html?studyUID=%s", this.previewerHost, this.previewerPort, studyNotification.getStudyIuid()));
 
 		emailService.sendMessageWithAttachment(studyNotification.getEmail(), "Innova Pacs",
 				SmtpUtil.transformFromTemplate(templates), null);
