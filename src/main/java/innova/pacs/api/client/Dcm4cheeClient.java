@@ -141,14 +141,14 @@ public class Dcm4cheeClient {
 	 * @throws Exception
 	 */
 	public List<AETDto> getAes() throws Exception {
-		String url = String.format("https://%s:%s/dcm4chee-arc/aes", this.host, this.apiPort);
+		String url = String.format("http://%s:%s/dcm4chee-arc/aes", this.host, this.apiPort);
 		HttpGet request = new HttpGet(url);
 		HttpClient httpClient = this.getClient();
 
-		JSONObject auth = this.auth();
-		String token = auth.getString("access_token");
+//		JSONObject auth = this.auth();
+//		String token = auth.getString("access_token");
 
-		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
+//		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
 
 		HttpResponse response = httpClient.execute(request);
 
@@ -178,18 +178,18 @@ public class Dcm4cheeClient {
 	 */
 	public void export(String uuid, String aets) throws Exception {
 //		https://192.168.3.108:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/1.2.392.200036.9125.2.20839136157173252.64951091883.41568/export/dicom:DCM4CHEE?
-		String url = String.format("https://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies/%s/export/dicom:%s?", this.host,
+		String url = String.format("http://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies/%s/export/dicom:%s?", this.host,
 				this.apiPort, uuid, aets);
 
 		System.out.println("Url: " + url);
 		HttpPost request = new HttpPost(url);
 		HttpClient httpClient = this.getClient();
+//
+//		JSONObject auth = this.auth();
+//		String token = auth.getString("access_token");
+//		System.out.println("Token: " + token);
 
-		JSONObject auth = this.auth();
-		String token = auth.getString("access_token");
-		System.out.println("Token: " + token);
-
-		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
+//		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
 
 		HttpResponse response = httpClient.execute(request);
 

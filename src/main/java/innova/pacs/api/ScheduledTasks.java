@@ -25,27 +25,31 @@ public class ScheduledTasks {
     @Autowired
     private InstitutionService institutionService; 
     
-	@Scheduled(cron = "0 0 * * * ?")
+	@Scheduled(cron = "0 * * * * ?")
 	public void scheduleTaskRefactorStudyDate() {
 	    logger.info("Refactor Study Date :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.studyService.refactorStudyDate();
+	    logger.info("Refactor Study Date :: End task - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	}
 	
-	@Scheduled(cron = "0 10 * * * ?")
+	@Scheduled(cron = "0 * * * * ?")
 	public void scheduleTaskRefactorPatientBirthDate() {
 	    logger.info("Refactor Patient Birth Date :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.patientService.refactorPatientBirthDate();
+	    logger.info("Refactor Patient Birth Date :: End task - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	}
 	
-	@Scheduled(cron = "0 20 * * * ?")
+	@Scheduled(cron = "0 * * * * ?")
 	public void scheduleTaskConfigureInstitutions() {
 	    logger.info("Configure institutions :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.institutionService.configureInstitutions();
+	    logger.info("Configure institutions :: End task - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	}
 	
-	@Scheduled(cron = "0 30 * * * ?")
+	@Scheduled(cron = "0 * * * * ?")
 	public void scheduleTaskConfigureInstitutionsStudy() {
 	    logger.info("Configure institutionsStudies :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	    this.studyService.configureIntitutionStudies();
+	    logger.info("Configure institutionsStudies :: End task - {}", dateTimeFormatter.format(LocalDateTime.now()));
 	}
 }
