@@ -21,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NamedNativeQuery;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import innova.pacs.api.dto.UserDto;
 
 @SqlResultSetMapping(
@@ -55,6 +57,7 @@ public class User {
 	private Long id;
 	@Column(unique = true)
 	private String email;
+	@JsonIgnore
 	private String password;
 	@Column(unique = true)
 	private String username;

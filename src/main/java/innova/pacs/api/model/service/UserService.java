@@ -70,7 +70,7 @@ public class UserService {
 			}
 
 			currentUser = this.userRepository.save(currentUser);
-			currentUser.setPassword(null);
+
 		}
 
 		return currentUser;
@@ -83,9 +83,9 @@ public class UserService {
 	 */
 	@Transactional
 	public User create(User user) {
-		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		String pwd = new BCryptPasswordEncoder().encode(user.getPassword());
+		user.setPassword(pwd);
 		user = this.userRepository.save(user);
-		user.setPassword(null);
 
 		return user;
 	}
