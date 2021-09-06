@@ -57,14 +57,17 @@ public class UserService {
 	public User update(Long id, User user) {
 		Optional<User> optUser = this.findById(id);
 		User currentUser = null;
-
+		System.out.println(": Update user");
+		
 		if (optUser.isPresent()) {
 			currentUser = optUser.get();
 
 			currentUser.setActive(user.getActive());
 			currentUser.setUsername(user.getUsername());
 			currentUser.setEmail(user.getEmail());
-
+			
+			System.out.println("Pwd: "+user.getPassword());
+			
 			if (user.getPassword() != null) {
 				System.out.println("Pwd: "+user.getPassword());
 				System.out.println("Pwd: "+new BCryptPasswordEncoder().encode(user.getPassword()));
