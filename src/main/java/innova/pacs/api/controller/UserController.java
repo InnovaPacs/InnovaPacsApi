@@ -37,6 +37,7 @@ public class UserController {
 	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@PutMapping("/{id}")
 	public User update(@PathVariable("id") Long id, @RequestBody User user) {
+		System.out.println("Pwd: "+user.getPassword());
 		return this.userService.update(id, user);
 	}
 	
