@@ -66,6 +66,8 @@ public class UserService {
 			currentUser.setEmail(user.getEmail());
 
 			if (user.getPassword() != null) {
+				System.out.println("Pwd: "+user.getPassword());
+				System.out.println("Pwd: "+new BCryptPasswordEncoder().encode(user.getPassword()));
 				currentUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 			}
 
