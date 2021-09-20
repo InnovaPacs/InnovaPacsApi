@@ -158,7 +158,12 @@ public class Dcm4cheeClient {
 		 * Here update studies
 		 */
 		httpClient.execute(updaterequest);
-
+		HttpResponse updteResponse = httpClient.execute(updaterequest);
+		
+		int status = updteResponse.getStatusLine().getStatusCode();
+		
+		System.out.println("Update status: "+status);
+		
 		int statusCode = response.getStatusLine().getStatusCode();
 		List<AETDto> lstAet = new ArrayList<AETDto>();
 
