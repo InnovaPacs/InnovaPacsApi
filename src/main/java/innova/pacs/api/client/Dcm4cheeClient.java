@@ -142,7 +142,10 @@ public class Dcm4cheeClient {
 	 */
 	public List<AETDto> getAes() throws Exception {
 		String url = String.format("http://%s:%s/dcm4chee-arc/aes", this.host, this.apiPort);
+		String updateUrl = String.format("http://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies", this.host, this.apiPort);
+		
 		HttpGet request = new HttpGet(url);
+		HttpGet updaterequest = new HttpGet(url);
 		HttpClient httpClient = this.getClient();
 
 //		JSONObject auth = this.auth();
@@ -151,6 +154,10 @@ public class Dcm4cheeClient {
 //		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
 
 		HttpResponse response = httpClient.execute(request);
+		/**
+		 * Here update studies
+		 */
+		httpClient.execute(updaterequest);
 
 		int statusCode = response.getStatusLine().getStatusCode();
 		List<AETDto> lstAet = new ArrayList<AETDto>();
