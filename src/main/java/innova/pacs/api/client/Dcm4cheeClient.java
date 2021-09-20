@@ -134,6 +134,24 @@ public class Dcm4cheeClient {
 		return new JSONObject(EntityUtils.toString(entity));
 	}
 
+	public void updateStudies() {
+		String updateUrl = String.format("http://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies", this.host, this.apiPort);
+		HttpGet updaterequest = new HttpGet(updateUrl);
+		HttpClient httpClient;
+		try {
+			
+			httpClient = this.getClient();
+			httpClient.execute(updaterequest);
+			HttpResponse updteResponse = httpClient.execute(updaterequest);
+			
+			int status = updteResponse.getStatusLine().getStatusCode();
+			
+			System.out.println("Update status: "+status);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Get all AE Titles
 	 * 
@@ -142,10 +160,7 @@ public class Dcm4cheeClient {
 	 */
 	public List<AETDto> getAes() throws Exception {
 		String url = String.format("http://%s:%s/dcm4chee-arc/aes", this.host, this.apiPort);
-		String updateUrl = String.format("http://%s:%s/dcm4chee-arc/aets/DCM4CHEE/rs/studies", this.host, this.apiPort);
-		
 		HttpGet request = new HttpGet(url);
-		HttpGet updaterequest = new HttpGet(url);
 		HttpClient httpClient = this.getClient();
 
 //		JSONObject auth = this.auth();
@@ -154,15 +169,6 @@ public class Dcm4cheeClient {
 //		request.addHeader(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", token));
 
 		HttpResponse response = httpClient.execute(request);
-		/**
-		 * Here update studies
-		 */
-		httpClient.execute(updaterequest);
-		HttpResponse updteResponse = httpClient.execute(updaterequest);
-		
-		int status = updteResponse.getStatusLine().getStatusCode();
-		
-		System.out.println("Update status: "+status);
 		
 		int statusCode = response.getStatusLine().getStatusCode();
 		List<AETDto> lstAet = new ArrayList<AETDto>();

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import innova.pacs.api.dto.ModalityReportDto;
+import innova.pacs.api.client.Dcm4cheeClient;
 import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
@@ -32,6 +33,8 @@ public class StudyService {
 
 	@Autowired
 	private IStudyRepository studyRepository;
+	@Autowired
+	private Dcm4cheeClient dcm4cheeClient;
 
 	@Value("${previewer.host}")
 	private String previewerHost;
@@ -55,6 +58,7 @@ public class StudyService {
 	 */
 	@Transactional(readOnly = true)
 	public List<StudyFullDto> findFullStudies() {
+		this.dcm4cheeClient.updateStudies();
 		return this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
 	}
 
