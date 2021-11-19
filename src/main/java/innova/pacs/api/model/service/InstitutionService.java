@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import innova.pacs.api.dto.InstitutionConfigurtionDto;
 import innova.pacs.api.dto.InstitutionDto;
 import innova.pacs.api.model.Institution;
 import innova.pacs.api.model.InstitutionUser;
@@ -91,12 +92,54 @@ public class InstitutionService {
 	}
 	
 	/**
-	 * Save intitution
+	 * Save institution
 	 * @param institution
 	 * @return
 	 */
 	@Transactional
 	public Institution save(Institution institution) {
 		return this.institutionRepository.save(institution);
+	}
+	/**
+	 * Get institutions by user id
+	 * @param userId
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<String> findInstitutionByUserId(Long userId){
+		return this.institutionUserRepository.findInstitutionByUserId(userId);
+	}
+	
+	/**
+	 * Get all institutions configured
+	 * @param userId
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<InstitutionConfigurtionDto> getConfiguration(Long userId) {
+		return this.institutionUserRepository.getConfiguration(userId);
+	}
+	
+	/**
+	 * Save configuration
+	 * @param userId
+	 * @return
+	 */
+	@Transactional
+	public List<InstitutionConfigurtionDto> saveConfiguration(Long userId, List<Long> ids) {
+		this.institutionUserRepository.deleteConfigurationByUserId(userId);
+		
+		for (Long id : ids) {
+			if (id != null) {
+				InstitutionUser iu = new InstitutionUser();
+
+				iu.setUserId(userId);
+				iu.setInstitutionId(id);
+
+				this.institutionUserRepository.save(iu);
+			}
+		}
+		
+		return this.getConfiguration(userId);
 	}
 }

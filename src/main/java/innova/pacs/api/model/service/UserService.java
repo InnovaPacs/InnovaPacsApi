@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import innova.pacs.api.dto.UserDto;
+import innova.pacs.api.dto.UserV2Dto;
 import innova.pacs.api.model.User;
 import innova.pacs.api.model.repository.IUserRepository;
 
@@ -18,6 +19,8 @@ import innova.pacs.api.model.repository.IUserRepository;
 public class UserService {
 	@Autowired
 	private IUserRepository userRepository;
+	@Autowired
+	private InstitutionService institutionService;
 
 	/**
 	 * Find user with pager
@@ -129,7 +132,23 @@ public class UserService {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public List<UserDto> userReportQuery() {
-		return this.userRepository.userReportQuery();
+	public List<UserV2Dto> userReportQuery() {
+		return this.userRepository.userReport();
+	}
+	
+	/**
+	 * User Report Query
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public List<UserV2Dto> userReport() {
+		List<UserV2Dto> lstUser = this.userRepository.userReport();
+
+		for (UserV2Dto user : lstUser) {
+			List<String> lstInstitutions = this.institutionService.findInstitutionByUserId(user.getId());
+			user.setInstitutions(lstInstitutions);
+		}
+
+		return lstUser;
 	}
 }

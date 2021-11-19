@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import innova.pacs.api.dto.InstitutionConfigurtionDto;
 import innova.pacs.api.model.Institution;
 import innova.pacs.api.model.InstitutionUser;
 import innova.pacs.api.model.service.InstitutionService;
@@ -59,6 +60,16 @@ public class InstitutioController {
 		response.setHeader("Content-Disposition", "inline; filename=intitutionReport.pdf\"");
 		response.setContentLengthLong(byteArrayFile.length);
 		response.getOutputStream().write(byteArrayFile);
-
+	}
+	
+	@GetMapping("/user/{userId}/configuration")
+	public List<InstitutionConfigurtionDto> getConfiguration(@PathVariable("userId") Long userId) {
+		return this.institutionService.getConfiguration(userId);
+	}
+	
+	@PostMapping("/user/{userId}")
+	public List<InstitutionConfigurtionDto> saveConfiguration(@PathVariable("userId") Long userId,
+			@RequestBody List<Long> lstIds) {
+		return this.institutionService.saveConfiguration(userId, lstIds);
 	}
 }

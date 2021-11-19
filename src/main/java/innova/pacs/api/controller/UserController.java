@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import innova.pacs.api.dto.UserDto;
+import innova.pacs.api.dto.UserV2Dto;
 import innova.pacs.api.model.User;
 import innova.pacs.api.model.service.UserService;
 
@@ -24,8 +25,8 @@ public class UserController {
 	
 	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@GetMapping("/")
-	public List<UserDto> getAll() {
-		return this.userService.userReportQuery();
+	public List<UserV2Dto> getAll() {
+		return this.userService.userReport();
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})

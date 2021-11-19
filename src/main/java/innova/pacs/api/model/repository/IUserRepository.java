@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import innova.pacs.api.dto.UserDto;
+import innova.pacs.api.dto.UserV2Dto;
 import innova.pacs.api.model.User;
 
 public interface IUserRepository  extends PagingAndSortingRepository<User, Long>{
@@ -30,4 +31,12 @@ public interface IUserRepository  extends PagingAndSortingRepository<User, Long>
 	
 	@Query(nativeQuery = true)
 	public List<UserDto> userReportQuery();
+	
+	@Query(value = "SELECT distinct new innova.pacs.api.dto.UserV2Dto ("
+			+ " user.id,"
+			+ "	user.email,"
+			+ "	user.username,"
+			+ "	user.active )"
+			+ "FROM User user")
+	public List<UserV2Dto> userReport();
 }

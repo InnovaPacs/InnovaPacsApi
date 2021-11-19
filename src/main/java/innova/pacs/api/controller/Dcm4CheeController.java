@@ -24,11 +24,6 @@ public class Dcm4CheeController {
 		return dcm4CheeService.getAllAet();
 	}
 
-	@GetMapping("/aets/DCM4CHEE/rs/studies")
-	public List<AETDto> getAllStudies() throws Exception {
-		return dcm4CheeService.getAllAet();
-	}
-	
 	@PostMapping("/export")
 	public void export(@RequestBody AETExportDto aetExportDto) throws Exception {
 		dcm4CheeService.export(aetExportDto.getUuid(), aetExportDto.getAets());
