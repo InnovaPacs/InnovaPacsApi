@@ -11,6 +11,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
 
+@SuppressWarnings("deprecation")
 @Service
 public class ReportService {
 

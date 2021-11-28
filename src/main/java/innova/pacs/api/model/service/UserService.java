@@ -14,6 +14,7 @@ import innova.pacs.api.dto.UserDto;
 import innova.pacs.api.dto.UserV2Dto;
 import innova.pacs.api.model.User;
 import innova.pacs.api.model.repository.IUserRepository;
+import innova.pacs.api.security.SecurityUtil;
 
 @Service
 public class UserService {
@@ -24,6 +25,7 @@ public class UserService {
 
 	/**
 	 * Find user with pager
+	 * 
 	 * @param pageable
 	 * @return
 	 */
@@ -31,8 +33,10 @@ public class UserService {
 	public Page<User> findAll(Pageable pageable) {
 		return this.userRepository.findAll(pageable);
 	}
+
 	/**
 	 * Find by user id
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -43,6 +47,7 @@ public class UserService {
 
 	/**
 	 * Delete user
+	 * 
 	 * @param id
 	 */
 	@Transactional
@@ -52,6 +57,7 @@ public class UserService {
 
 	/**
 	 * Update user
+	 * 
 	 * @param id
 	 * @param user
 	 * @return
@@ -61,19 +67,19 @@ public class UserService {
 		Optional<User> optUser = this.findById(id);
 		User currentUser = null;
 		System.out.println(": Update user");
-		
+
 		if (optUser.isPresent()) {
 			currentUser = optUser.get();
 
 			currentUser.setActive(user.getActive());
 			currentUser.setUsername(user.getUsername());
 			currentUser.setEmail(user.getEmail());
-			
-			System.out.println("Pwd: "+user.getPassword());
-			
+
+			System.out.println("Pwd: " + user.getPassword());
+
 			if (user.getPassword() != null) {
-				System.out.println("Pwd: "+user.getPassword());
-				System.out.println("Pwd: "+new BCryptPasswordEncoder().encode(user.getPassword()));
+				System.out.println("Pwd: " + user.getPassword());
+				System.out.println("Pwd: " + new BCryptPasswordEncoder().encode(user.getPassword()));
 				currentUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 			}
 
@@ -86,6 +92,7 @@ public class UserService {
 
 	/**
 	 * Save new user
+	 * 
 	 * @param user
 	 * @return
 	 */
@@ -100,6 +107,7 @@ public class UserService {
 
 	/**
 	 * Find By User Name
+	 * 
 	 * @param username
 	 * @return
 	 */
@@ -110,6 +118,7 @@ public class UserService {
 
 	/**
 	 * Get all users
+	 * 
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -119,6 +128,7 @@ public class UserService {
 
 	/**
 	 * Get by Id
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -129,15 +139,17 @@ public class UserService {
 
 	/**
 	 * User Report Query
+	 * 
 	 * @return
 	 */
 	@Transactional(readOnly = true)
 	public List<UserV2Dto> userReportQuery() {
 		return this.userRepository.userReport();
 	}
-	
+
 	/**
 	 * User Report Query
+	 * 
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -150,5 +162,17 @@ public class UserService {
 		}
 
 		return lstUser;
+	}
+	
+	/**
+	 * Get user in session
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public User getUserInsession() {
+		String  username = SecurityUtil.getUsername();
+		User user = this.findByUsername(username);
+		
+		return user;
 	}
 }
