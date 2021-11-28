@@ -24,7 +24,8 @@ public interface IInstitutionUserRepository  extends PagingAndSortingRepository<
 			+ " ( select "
 			+ "		CASE WHEN count(0) > 0 THEN true ELSE false END"
 			+ " 	from InstitutionUser iu "
-			+ "		where iu.userId =:userId ) "
+			+ "		where iu.userId =:userId "
+			+ "		and institution.id = iu.institutionId) "
 			+ ") "
 			+ "from "
 			+ "Institution institution")
