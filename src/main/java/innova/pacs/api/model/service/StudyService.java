@@ -65,11 +65,15 @@ public class StudyService {
 	
 	@Transactional(readOnly = true)
 	public StudyFullCountDto findFullStudiesCount() {
-		Integer studyCount = this.studyRepository.findFullStudiesCountByUsername(SecurityUtil.getUsername());
-		Integer instancesCount = this.studyRepository.findFullStudiesCountInstancesByUsername(SecurityUtil.getUsername());
+		Integer instancesCount = 0;
 		
-		StudyFullCountDto studyFullCount = new StudyFullCountDto(studyCount, instancesCount, 0);
-		this.dcm4cheeClient.updateStudies();
+		List<StudyFullDto> lst = this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
+		
+		for (StudyFullDto studyFullDto : lst) {
+			instancesCount += studyFullDto.getNumInstances();
+		}
+		
+		StudyFullCountDto studyFullCount = new StudyFullCountDto(lst.size(), instancesCount, 0);
 		
 		return studyFullCount;
 	}
@@ -147,16 +151,22 @@ public class StudyService {
 			e.printStackTrace();
 		}
 
-		Integer studyCount = this.studyRepository.findFullStudiesCountByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
+		Integer instancesCount = 0;
+		
+		List<StudyFullDto> lst = this.studyRepository.findFullStudiesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
 				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
 		
-		Integer instancesCount = this.studyRepository.findFullStudiesCountInstancesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
-				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+		Integer modalityCount = 0;
 		
-		Integer modalityCount = this.studyRepository.findFullStudiesModalityInstancesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
-				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+		for (StudyFullDto studyFullDto : lst) {
+			instancesCount += studyFullDto.getNumInstances();
+		}
 
-		StudyFullCountDto studyFullCount = new StudyFullCountDto(studyCount, instancesCount, !"null".equals(modality) ? modalityCount : 0);
+		if(!"null".equals(modality)) {
+			modalityCount = lst.size();
+		}
+		
+		StudyFullCountDto studyFullCount = new StudyFullCountDto(lst.size(), instancesCount, modalityCount);
 		
 		return studyFullCount;
 	}
