@@ -19,6 +19,7 @@ import innova.pacs.api.client.Dcm4cheeClient;
 import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.InstitutionStudyDto;
 import innova.pacs.api.dto.StudyDto;
+import innova.pacs.api.dto.StudyFullCountDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.dto.StudyNotificationDto;
 import innova.pacs.api.model.Study;
@@ -61,6 +62,17 @@ public class StudyService {
 		this.dcm4cheeClient.updateStudies();
 		return this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
 	}
+	
+	@Transactional(readOnly = true)
+	public StudyFullCountDto findFullStudiesCount() {
+		Integer studyCount = this.studyRepository.findFullStudiesCountByUsername(SecurityUtil.getUsername());
+		Integer instancesCount = this.studyRepository.findFullStudiesCountInstancesByUsername(SecurityUtil.getUsername());
+		
+		StudyFullCountDto studyFullCount = new StudyFullCountDto(studyCount, instancesCount, 0);
+		this.dcm4cheeClient.updateStudies();
+		
+		return studyFullCount;
+	}
 
 	/**
 	 * Find Full Studies Filter
@@ -100,6 +112,55 @@ public class StudyService {
 				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
 	}
 
+	/**
+	 * Count of studies
+	 * @param name
+	 * @param institution
+	 * @param gender
+	 * @param instances
+	 * @param modality
+	 * @param patientId
+	 * @param studyDateEnd
+	 * @param studyDateInit
+	 * @param studyDescription
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public StudyFullCountDto findFullStudiesCountFilter(String name, String institution, String gender, Integer instances,
+			String modality, String patientId, String studyDateEnd, String studyDateInit, String studyDescription) {
+		
+		Date daateEnd = null;
+		Date dateInit = null;
+		try {
+			name = !"null".equals(name) ? String.format("%%%s%%", name) : "null";
+			patientId = !"null".equals(patientId) ? String.format("%%%s%%", patientId) : "null";
+			studyDescription = !"null".equals(studyDescription) ? String.format("%%%s%%", studyDescription) : "null";
+
+			dateInit = !"".equals(studyDateInit) && !"null".equals(studyDateInit) && studyDateInit != null
+					? new SimpleDateFormat("yyyy-MM-dd").parse(studyDateInit)
+					: null;
+			daateEnd = !"".equals(studyDateEnd) && !"null".equals(studyDateEnd) && studyDateEnd != null
+					? new SimpleDateFormat("yyyy-MM-dd").parse(studyDateEnd)
+					: null;
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		Integer studyCount = this.studyRepository.findFullStudiesCountByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
+				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+		
+		Integer instancesCount = this.studyRepository.findFullStudiesCountInstancesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
+				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+		
+		Integer modalityCount = this.studyRepository.findFullStudiesModalityInstancesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
+				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+
+		StudyFullCountDto studyFullCount = new StudyFullCountDto(studyCount, instancesCount, !"null".equals(modality) ? modalityCount : 0);
+		
+		return studyFullCount;
+	}
+	
 	/**
 	 * Refactor Study Date
 	 */

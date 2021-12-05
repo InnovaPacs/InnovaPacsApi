@@ -26,12 +26,25 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ "	JOIN Series series ON study.pk = series.studyFk" + " WHERE study.patientFk = :patientFk ")
 	public List<StudyDto> findByPatientFk(@Param("patientFk") Integer patientFk);
 
-	@Query(value = "SELECT distinct new innova.pacs.api.dto.StudyFullDto(" + "patient.pk, " + "patientId.patId, "
-			+ "personName.middleName, " + "personName.familyName, " + "personName.givenName, " + "patient.patSex, "
-			+ "study.pk, " + "study.createdTime, " + "study.date, " + "study.studyId, " + "study.studyIuid, "
-			+ "study.studyDesc, " + "studyQueryAttrs.modsInStudy, " + "studyQueryAttrs.numInstances, "
-			+ "patient.birthdate, " + "series.institution, "
-					+ "patient.email )" + " FROM Patient patient "
+	@Query(value = "SELECT distinct new innova.pacs.api.dto.StudyFullDto(" 
+			+ "patient.pk, " 
+			+ "patientId.patId, "
+			+ "personName.middleName, " 
+			+ "personName.familyName, " 
+			+ "personName.givenName, " 
+			+ "patient.patSex, "
+			+ "study.pk, " 
+			+ "study.createdTime, " 
+			+ "study.date, " 
+			+ "study.studyId, " 
+			+ "study.studyIuid, "
+			+ "study.studyDesc, " 
+			+ "studyQueryAttrs.modsInStudy, " 
+			+ "studyQueryAttrs.numInstances, "
+			+ "patient.birthdate, " 
+			+ "series.institution, "
+			+ "patient.email )" 
+			+ " FROM Patient patient "
 			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
 			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
 			+ " JOIN Study study ON study.patientFk = patientId.pk "
@@ -39,9 +52,36 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ " JOIN Series series ON study.pk = series.studyFk "
 			+ " JOIN Institution institution ON series.institution = institution.name "
 			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
-			+ "	JOIN User suser ON iuser.userId = suser.id " + "	where suser.username = :username ")
+			+ "	JOIN User suser ON iuser.userId = suser.id " 
+			+ "	where suser.username = :username ")
 	public List<StudyFullDto> findFullStudiesByUsername(@Param("username") String username);
 
+	@Query(value = "SELECT count(0) " 
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ " LEFT JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id " 
+			+ "	where suser.username = :username ")
+	public Integer findFullStudiesCountByUsername(@Param("username") String username);
+	
+	@Query(value = "SELECT sum(studyQueryAttrs.numInstances) " 
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ " LEFT JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id " 
+			+ "	where suser.username = :username ")
+	public Integer findFullStudiesCountInstancesByUsername(@Param("username") String username);
+	
 	/**
 	 * Filter studies
 	 * 
@@ -79,8 +119,8 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ " JOIN Institution institution ON series.institution = institution.name "
 			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
 			+ "	JOIN User suser ON iuser.userId = suser.id " + "	WHERE suser.username = :username "
-			+ "	AND UPPER(series.institution) = CASE WHEN :institution <> 'null' THEN UPPER(:institution) ELSE series.institution END "
-			+ "	AND studyQueryAttrs.modsInStudy = 	CASE WHEN :modality <> 'null' THEN :modality ELSE studyQueryAttrs.modsInStudy END "
+			+ "	AND UPPER(series.institution) = CASE WHEN :institution <> 'null' THEN UPPER(:institution) ELSE UPPER(series.institution) END "
+			+ "	AND UPPER(studyQueryAttrs.modsInStudy) = CASE WHEN :modality <> 'null' THEN UPPER(:modality) ELSE UPPER(studyQueryAttrs.modsInStudy) END "
 			+ "	AND patient.patSex		= CASE WHEN :gender <> 'null' THEN :gender ELSE patient.patSex END "
 			+ "	AND studyQueryAttrs.numInstances = 	CASE WHEN :instances <> 0 THEN :instances ELSE studyQueryAttrs.numInstances END "
 			+ "	AND UPPER(patientId.patId) 		LIKE CASE WHEN :patientId <> 'null' THEN UPPER(:patientId) ELSE UPPER(patientId.patId) END "
@@ -150,4 +190,91 @@ public interface IStudyRepository extends PagingAndSortingRepository<Study, Inte
 			+ "where inst.id = :institutionId "
 			+ "group by inst.id")
 	public List<InstitutionReportDto> institutionRepository(@Param("institutionId") Integer institutionId);
+	
+	@Query(value = "SELECT count(0) " 
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ " JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id " + "	WHERE suser.username = :username "
+			+ "	AND UPPER(series.institution) = CASE WHEN :institution <> 'null' THEN UPPER(:institution) ELSE UPPER(series.institution) END "
+			+ "	AND studyQueryAttrs.modsInStudy = 	CASE WHEN :modality <> 'null' THEN :modality ELSE studyQueryAttrs.modsInStudy END "
+			+ "	AND patient.patSex		= CASE WHEN :gender <> 'null' THEN :gender ELSE patient.patSex END "
+			+ "	AND studyQueryAttrs.numInstances = 	CASE WHEN :instances <> 0 THEN :instances ELSE studyQueryAttrs.numInstances END "
+			+ "	AND UPPER(patientId.patId) 		LIKE CASE WHEN :patientId <> 'null' THEN UPPER(:patientId) ELSE UPPER(patientId.patId) END "
+			+ "	AND ( UPPER(personName.middleName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.middleName) END "
+			+ "	OR UPPER(personName.familyName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.familyName) END "
+			+ "	OR UPPER(personName.givenName) 	LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.givenName) END ) "
+			+ "	AND UPPER(study.studyDesc) 		LIKE CASE WHEN :studyDescription <> 'null' THEN UPPER(:studyDescription) ELSE UPPER(study.studyDesc) END "
+//			+ "	AND study.date BETWEEN :studyDateInit AND :studyDateEnd "
+			
+			+ "	AND ( (study.date >= :studyDateInit OR CAST(:studyDateInit as timestamp) IS NULL)  "
+			+ "	AND  (study.date <= :studyDateEnd OR CAST(:studyDateEnd as timestamp) IS NULL) )"
+			)
+	public Integer findFullStudiesCountByUsernameAndFilters(@Param("username") String username,
+			@Param("name") String name, @Param("institution") String institution, @Param("gender") String gender,
+			@Param("instances") Integer instances, @Param("modality") String modality,
+			@Param("patientId") String patientId, @Param("studyDescription") String studyDescription, @Param("studyDateInit")  Date studyDateInit, @Param("studyDateEnd")  Date studyDateEnd);
+	
+	@Query(value = "SELECT sum(studyQueryAttrs.numInstances) " 
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ " JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id " + "	WHERE suser.username = :username "
+			+ "	AND UPPER(series.institution) = CASE WHEN :institution <> 'null' THEN UPPER(:institution) ELSE UPPER(series.institution) END "
+			+ "	AND studyQueryAttrs.modsInStudy = 	CASE WHEN :modality <> 'null' THEN :modality ELSE studyQueryAttrs.modsInStudy END "
+			+ "	AND patient.patSex		= CASE WHEN :gender <> 'null' THEN :gender ELSE patient.patSex END "
+			+ "	AND studyQueryAttrs.numInstances = 	CASE WHEN :instances <> 0 THEN :instances ELSE studyQueryAttrs.numInstances END "
+			+ "	AND UPPER(patientId.patId) 		LIKE CASE WHEN :patientId <> 'null' THEN UPPER(:patientId) ELSE UPPER(patientId.patId) END "
+			+ "	AND ( UPPER(personName.middleName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.middleName) END "
+			+ "	OR UPPER(personName.familyName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.familyName) END "
+			+ "	OR UPPER(personName.givenName) 	LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.givenName) END ) "
+			+ "	AND UPPER(study.studyDesc) 		LIKE CASE WHEN :studyDescription <> 'null' THEN UPPER(:studyDescription) ELSE UPPER(study.studyDesc) END "
+//			+ "	AND study.date BETWEEN :studyDateInit AND :studyDateEnd "
+			
+			+ "	AND ( (study.date >= :studyDateInit OR CAST(:studyDateInit as timestamp) IS NULL)  "
+			+ "	AND  (study.date <= :studyDateEnd OR CAST(:studyDateEnd as timestamp) IS NULL) )"
+			)
+	public Integer findFullStudiesCountInstancesByUsernameAndFilters(@Param("username") String username,
+			@Param("name") String name, @Param("institution") String institution, @Param("gender") String gender,
+			@Param("instances") Integer instances, @Param("modality") String modality,
+			@Param("patientId") String patientId, @Param("studyDescription") String studyDescription, @Param("studyDateInit")  Date studyDateInit, @Param("studyDateEnd")  Date studyDateEnd);
+	
+	@Query(value = "SELECT count(studyQueryAttrs.modsInStudy) " 
+			+ " FROM Patient patient "
+			+ " JOIN PatientId patientId ON patient.patientIdFk =  patientId.pk "
+			+ " JOIN PersonName personName ON patient.patNameFk = personName.pk "
+			+ " JOIN Study study ON study.patientFk = patientId.pk "
+			+ " JOIN StudyQueryAttrs studyQueryAttrs ON study.pk = studyQueryAttrs.studyFk "
+			+ " JOIN Series series ON study.pk = series.studyFk "
+			+ " JOIN Institution institution ON series.institution = institution.name "
+			+ "	JOIN InstitutionUser iuser ON institution.id = iuser.institutionId "
+			+ "	JOIN User suser ON iuser.userId = suser.id " + "	WHERE suser.username = :username "
+			+ "	AND UPPER(series.institution) = CASE WHEN :institution <> 'null' THEN UPPER(:institution) ELSE UPPER(series.institution) END "
+			+ "	AND studyQueryAttrs.modsInStudy = 	CASE WHEN :modality <> 'null' THEN :modality ELSE studyQueryAttrs.modsInStudy END "
+			+ "	AND patient.patSex		= CASE WHEN :gender <> 'null' THEN :gender ELSE patient.patSex END "
+			+ "	AND studyQueryAttrs.numInstances = 	CASE WHEN :instances <> 0 THEN :instances ELSE studyQueryAttrs.numInstances END "
+			+ "	AND UPPER(patientId.patId) 		LIKE CASE WHEN :patientId <> 'null' THEN UPPER(:patientId) ELSE UPPER(patientId.patId) END "
+			+ "	AND ( UPPER(personName.middleName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.middleName) END "
+			+ "	OR UPPER(personName.familyName) LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.familyName) END "
+			+ "	OR UPPER(personName.givenName) 	LIKE CASE WHEN :name <> 'null' THEN UPPER(:name) ELSE UPPER(personName.givenName) END ) "
+			+ "	AND UPPER(study.studyDesc) 		LIKE CASE WHEN :studyDescription <> 'null' THEN UPPER(:studyDescription) ELSE UPPER(study.studyDesc) END "
+//			+ "	AND study.date BETWEEN :studyDateInit AND :studyDateEnd "
+			
+			+ "	AND ( (study.date >= :studyDateInit OR CAST(:studyDateInit as timestamp) IS NULL)  "
+			+ "	AND  (study.date <= :studyDateEnd OR CAST(:studyDateEnd as timestamp) IS NULL) )"
+			)
+	public Integer findFullStudiesModalityInstancesByUsernameAndFilters(@Param("username") String username,
+			@Param("name") String name, @Param("institution") String institution, @Param("gender") String gender,
+			@Param("instances") Integer instances, @Param("modality") String modality,
+			@Param("patientId") String patientId, @Param("studyDescription") String studyDescription, @Param("studyDateInit")  Date studyDateInit, @Param("studyDateEnd")  Date studyDateEnd);
 }

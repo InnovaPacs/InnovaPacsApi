@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.ModalityReportDto;
 import innova.pacs.api.dto.StudyDto;
+import innova.pacs.api.dto.StudyFullCountDto;
 import innova.pacs.api.dto.StudyFullDto;
 import innova.pacs.api.model.service.StudyService;
 
@@ -31,6 +32,11 @@ public class StudyController {
 		return this.studyService.findFullStudies();
 	}
 
+	@GetMapping("/fullCount")
+	public StudyFullCountDto studyCountRepository() {
+		return this.studyService.findFullStudiesCount();
+	}
+		
 	@GetMapping("/filter")
 	public List<StudyFullDto> studyFilterRepository(@RequestParam(required = false) String name,
 			@RequestParam(required = false) String institution,
@@ -39,6 +45,16 @@ public class StudyController {
 			@RequestParam(required = false) String studyDateEnd, @RequestParam(required = false) String studyDateInit, @RequestParam(required = false) String studyDescription) {
 
 		return this.studyService.findFullStudiesFilter(name, institution, gender, instances, modality, patientId, studyDateEnd, studyDateInit, studyDescription);
+	}
+	
+	@GetMapping("/filterCount")
+	public StudyFullCountDto studyFilterCountRepository(@RequestParam(required = false) String name,
+			@RequestParam(required = false) String institution,
+			@RequestParam(required = false) String gender, @RequestParam(required = false) Integer instances,
+			@RequestParam(required = false) String modality, @RequestParam(required = false) String patientId,
+			@RequestParam(required = false) String studyDateEnd, @RequestParam(required = false) String studyDateInit, @RequestParam(required = false) String studyDescription) {
+
+		return this.studyService.findFullStudiesCountFilter(name, institution, gender, instances, modality, patientId, studyDateEnd, studyDateInit, studyDescription);
 	}
 	
 	@GetMapping("/institutions/{institutionId}/modalityReport")
