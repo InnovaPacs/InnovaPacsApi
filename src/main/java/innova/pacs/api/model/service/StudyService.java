@@ -39,12 +39,13 @@ public class StudyService {
 
 	@Value("${previewer.host}")
 	private String previewerHost;
-	
+
 	@Value("${previewer.port}")
 	private String previewerPort;
 
 	/**
 	 * Find By Patient Fk
+	 * 
 	 * @param patientFk
 	 * @return
 	 */
@@ -55,6 +56,7 @@ public class StudyService {
 
 	/**
 	 * Find Full Studies
+	 * 
 	 * @return
 	 */
 	@Transactional(readOnly = true)
@@ -62,24 +64,27 @@ public class StudyService {
 		this.dcm4cheeClient.updateStudies();
 		return this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
 	}
-	
+
 	@Transactional(readOnly = true)
 	public StudyFullCountDto findFullStudiesCount() {
 		Integer instancesCount = 0;
-		
+
 		List<StudyFullDto> lst = this.studyRepository.findFullStudiesByUsername(SecurityUtil.getUsername());
-		
+
 		for (StudyFullDto studyFullDto : lst) {
-			instancesCount += studyFullDto.getNumInstances();
+			instancesCount += (studyFullDto != null && studyFullDto.getNumInstances() != null)
+					? studyFullDto.getNumInstances()
+					: 0;
 		}
-		
+
 		StudyFullCountDto studyFullCount = new StudyFullCountDto(lst.size(), instancesCount, 0);
-		
+
 		return studyFullCount;
 	}
 
 	/**
 	 * Find Full Studies Filter
+	 * 
 	 * @param name
 	 * @param institution
 	 * @param gender
@@ -118,6 +123,7 @@ public class StudyService {
 
 	/**
 	 * Count of studies
+	 * 
 	 * @param name
 	 * @param institution
 	 * @param gender
@@ -130,9 +136,10 @@ public class StudyService {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public StudyFullCountDto findFullStudiesCountFilter(String name, String institution, String gender, Integer instances,
-			String modality, String patientId, String studyDateEnd, String studyDateInit, String studyDescription) {
-		
+	public StudyFullCountDto findFullStudiesCountFilter(String name, String institution, String gender,
+			Integer instances, String modality, String patientId, String studyDateEnd, String studyDateInit,
+			String studyDescription) {
+
 		Date daateEnd = null;
 		Date dateInit = null;
 		try {
@@ -152,25 +159,25 @@ public class StudyService {
 		}
 
 		Integer instancesCount = 0;
-		
-		List<StudyFullDto> lst = this.studyRepository.findFullStudiesByUsernameAndFilters(SecurityUtil.getUsername(), name, institution,
-				gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
-		
+
+		List<StudyFullDto> lst = this.studyRepository.findFullStudiesByUsernameAndFilters(SecurityUtil.getUsername(),
+				name, institution, gender, instances, modality, patientId, studyDescription, dateInit, daateEnd);
+
 		Integer modalityCount = 0;
-		
+
 		for (StudyFullDto studyFullDto : lst) {
 			instancesCount += studyFullDto.getNumInstances();
 		}
 
-		if(!"null".equals(modality)) {
+		if (!"null".equals(modality)) {
 			modalityCount = lst.size();
 		}
-		
+
 		StudyFullCountDto studyFullCount = new StudyFullCountDto(lst.size(), instancesCount, modalityCount);
-		
+
 		return studyFullCount;
 	}
-	
+
 	/**
 	 * Refactor Study Date
 	 */
@@ -200,7 +207,7 @@ public class StudyService {
 	 * @return
 	 * @throws Exception
 	 */
-	@Transactional(readOnly = true)	
+	@Transactional(readOnly = true)
 	public StudyNotificationDto findPatientByUiud(String studyIuid) throws Exception {
 		StudyNotificationDto studyNotification = this.studyRepository.findPatientByUiud(studyIuid);
 
@@ -213,6 +220,7 @@ public class StudyService {
 
 	/**
 	 * Send notification
+	 * 
 	 * @param studyIuid
 	 * @throws Exception
 	 */
@@ -226,40 +234,43 @@ public class StudyService {
 						studyNotification.getFamilyName() != null ? studyNotification.getFamilyName() : "",
 						studyNotification.getGivenName() != null ? studyNotification.getGivenName() : "",
 						studyNotification.getMiddleName() != null ? studyNotification.getMiddleName() : ""));
-		templates.put("url", String.format("http://%s:%s/viewer.html?studyUID=%s", this.previewerHost, this.previewerPort, studyNotification.getStudyIuid()));
+		templates.put("url", String.format("http://%s:%s/viewer.html?studyUID=%s", this.previewerHost,
+				this.previewerPort, studyNotification.getStudyIuid()));
 
 		emailService.sendMessageWithAttachment(studyNotification.getEmail(), "Innova Pacs",
 				SmtpUtil.transformFromTemplate(templates), null);
 	}
-	
+
 	/**
 	 * Configure institutions and studies
 	 */
 	public void configureIntitutionStudies() {
- 		List<InstitutionStudyDto> lstInsitutionStudy = this.studyRepository.findStudiesToConfigure();
- 		
- 		for (InstitutionStudyDto institutionStudyDto : lstInsitutionStudy) {
+		List<InstitutionStudyDto> lstInsitutionStudy = this.studyRepository.findStudiesToConfigure();
+
+		for (InstitutionStudyDto institutionStudyDto : lstInsitutionStudy) {
 			Study study = this.studyRepository.findByPk(institutionStudyDto.getStudyPk());
 			study.setInstitutionFk(institutionStudyDto.getInstitutionId());
 			this.studyRepository.save(study);
 		}
 	}
-	
+
 	/**
 	 * Get Modality report by institution
+	 * 
 	 * @param institutionId
 	 * @return
 	 */
 	public List<ModalityReportDto> modalityReportByInstitution(Integer institutionId) {
 		return this.studyRepository.modalityReportByInstitution(institutionId);
 	}
-	
+
 	/**
 	 * Get Institution report by institution
+	 * 
 	 * @param institutionId
 	 * @return
 	 */
-	public List<InstitutionReportDto> institutionRepository(Integer institutionId){
+	public List<InstitutionReportDto> institutionRepository(Integer institutionId) {
 		return this.studyRepository.institutionRepository(institutionId);
 	}
 }
