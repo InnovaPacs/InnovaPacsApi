@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import innova.pacs.api.model.DiagnosticPdfConfigiration;
+import innova.pacs.api.model.User;
 import innova.pacs.api.model.repository.IDiagnosticPdfConfigirationRepository;
+import innova.pacs.api.security.SecurityUtil;
 
 @Service
 public class DiagnosticPdfConfigirationService {
 	@Autowired
 	private IDiagnosticPdfConfigirationRepository diagnosticPdfConfigirationRepository;
-
+	@Autowired
+	private UserService userService;
+	
 	/**
 	 * Save
 	 * 
@@ -21,6 +25,10 @@ public class DiagnosticPdfConfigirationService {
 	 * @return
 	 */
 	public DiagnosticPdfConfigiration create(DiagnosticPdfConfigiration diagnosticPdfConfigiration) {
+		String username = SecurityUtil.getUsername();
+		User user = this.userService.findByUsername(username);
+		
+		diagnosticPdfConfigiration.setUserId(user.getId());
 		return diagnosticPdfConfigirationRepository.save(diagnosticPdfConfigiration);
 	}
 

@@ -14,7 +14,7 @@ public class DiagnosticPdfConfigiration {
 	private Long id;
 	private Long innovaFileId;
 	private String headerColor;
-	private Long templateName;
+	private String templateName;
 	private Long userId;
 
 	public Long getId() {
@@ -49,11 +49,11 @@ public class DiagnosticPdfConfigiration {
 		this.userId = userId;
 	}
 
-	public Long getTemplateName() {
+	public String getTemplateName() {
 		return templateName;
 	}
 
-	public void setTemplateName(Long templateName) {
+	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
 	}
 
