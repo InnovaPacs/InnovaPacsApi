@@ -17,7 +17,7 @@ public class InnovaDiagnosticPdfDto {
 	private String doctorUniversity;
 
 	public String getHeaderColor() {
-		return headerColor;
+		return headerColor != null ? this.headerColor : "";
 	}
 
 	public void setHeaderColor(String headerColor) {
@@ -33,7 +33,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getPatientName() {
-		return patientName;
+		return patientName != null ? this.patientName : "";
 	}
 
 	public void setPatientName(String patientName) {
@@ -41,7 +41,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDiagnosticDate() {
-		return diagnosticDate;
+		return diagnosticDate  != null ? this.diagnosticDate : "";
 	}
 
 	public void setDiagnosticDate(String diagnosticDate) {
@@ -49,7 +49,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDiagnostic() {
-		return diagnostic;
+		return diagnostic != null ? this.diagnostic : "";
 	}
 
 	public void setDiagnostic(String diagnostic) {
@@ -57,7 +57,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDoctorName() {
-		return doctorName;
+		return doctorName != null ? this.doctorName : "";
 	}
 
 	public void setDoctorName(String doctorName) {
@@ -65,7 +65,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDoctorTitle() {
-		return doctorTitle;
+		return doctorTitle != null ? this.doctorTitle : "";
 	}
 
 	public void setDoctorTitle(String doctorTitle) {
@@ -73,7 +73,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getPatientSex() {
-		return patientSex;
+		return patientSex != null ? this.patientSex : "";
 	}
 
 	public void setPatientSex(String patientSex) {
@@ -81,7 +81,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getPatientBirth() {
-		return patientBirth;
+		return patientBirth != null ? this.patientBirth : "";
 	}
 
 	public void setPatientBirth(String patientBirth) {
@@ -89,7 +89,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getPatientAge() {
-		return patientAge;
+		return patientAge != null ? this.patientAge : "";
 	}
 
 	public void setPatientAge(String patientAge) {
@@ -97,7 +97,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDoctorLicense() {
-		return doctorLicense;
+		return doctorLicense != null ? this.doctorLicense : "";
 	}
 
 	public void setDoctorLicense(String doctorLicense) {
@@ -105,7 +105,7 @@ public class InnovaDiagnosticPdfDto {
 	}
 
 	public String getDoctorUniversity() {
-		return doctorUniversity;
+		return doctorUniversity != null ? this.doctorUniversity : "";
 	}
 
 	public void setDoctorUniversity(String doctorUniversity) {

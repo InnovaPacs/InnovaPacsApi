@@ -22,8 +22,9 @@ public interface IDiagnosisRepository extends PagingAndSortingRepository<Diagnos
 			+ "from Diagnosis diagnosis "
 			+ "join User user on user.id = diagnosis.creatorId "
 			+ "left join InnovaFile iFile on diagnosis.fileId = iFile.id "
-			+ "where diagnosis.studyId = :studyId ")
-	List<DiagnosisDto> getByStudyId(@Param("studyId") Long studyId);
+			+ "where diagnosis.studyId = :studyId "
+			+ "order by diagnosis.created DESC ")
+	List<DiagnosisDto> getByStudyId(@Param("studyId") Integer studyId);
 	
 	List<Diagnosis> findByStudyId(@Param("studyId") Long studyId);
 }

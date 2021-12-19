@@ -2,6 +2,7 @@ package innova.pacs.api.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,9 +18,10 @@ public class Diagnosis {
 	private Date created = new Date();
 	private Date updated;
 	private Long creatorId;
-	private Long studyId;
+	private Integer studyId;
 	private Long fileId;
 	private String title;
+	@Column(length = 1500)
 	private String diagnosis;
 	private Boolean custom;
 
@@ -79,11 +81,11 @@ public class Diagnosis {
 		this.creatorId = creatorId;
 	}
 
-	public Long getStudyId() {
+	public Integer getStudyId() {
 		return studyId;
 	}
 
-	public void setStudyId(Long studyId) {
+	public void setStudyId(Integer studyId) {
 		this.studyId = studyId;
 	}
 

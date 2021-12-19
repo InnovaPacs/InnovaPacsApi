@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import innova.pacs.api.dto.ModalityReportDto;
+import innova.pacs.api.dto.PatientData;
 import innova.pacs.api.client.Dcm4cheeClient;
 import innova.pacs.api.dto.InstitutionReportDto;
 import innova.pacs.api.dto.InstitutionStudyDto;
@@ -272,5 +273,14 @@ public class StudyService {
 	 */
 	public List<InstitutionReportDto> institutionRepository(Integer institutionId) {
 		return this.studyRepository.institutionRepository(institutionId);
+	}
+	
+	/**
+	 * Get date to diagnosis
+	 * @param studyPk
+	 * @return
+	 */
+	public PatientData getPatientDataByStudyId(Integer studyPk) {
+		return this.studyRepository.getPatientDataByStudyId(studyPk);
 	}
 }

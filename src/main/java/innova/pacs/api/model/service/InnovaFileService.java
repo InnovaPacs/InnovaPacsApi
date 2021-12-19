@@ -22,7 +22,7 @@ public class InnovaFileService {
 	private UserService userService;
 
 	/**
-	 * Save file
+	 * Create file from MultipartFile
 	 * 
 	 * @param innovaFile
 	 * @return
@@ -77,5 +77,15 @@ public class InnovaFileService {
 	 */
 	public List<InnovaFile> findAll() {
 		return (List<InnovaFile>) this.innovaFileReporsitory.findAll();
+	}
+	
+	/**
+	 * Create file from entity
+	 * @param file
+	 * @return
+	 */
+	public InnovaFile create(InnovaFile file) {
+		InnovaFile innovaFile = this.innovaFileReporsitory.save(file);
+		return innovaFile;
 	}
 }

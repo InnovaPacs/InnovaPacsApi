@@ -32,12 +32,12 @@ public class DiagnosisController {
 	private InnovaFileDiagnosticService innovaFileDiagnosticService;
 
 	@GetMapping("/study/{id}")
-	public List<DiagnosisDto> getAllByStudyId(@PathVariable("id") Long id) {
+	public List<DiagnosisDto> getAllByStudyId(@PathVariable("id") Integer id) {
 		return this.diagnosisService.findByStudyId(id);
 	}
 
 	@PostMapping()
-	public Diagnosis create(@RequestBody Diagnosis diagnosis) {
+	public Diagnosis create(@RequestBody Diagnosis diagnosis) throws IOException {
 		return this.diagnosisService.create(diagnosis);
 	}
 

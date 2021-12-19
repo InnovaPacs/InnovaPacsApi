@@ -39,6 +39,10 @@ public class DiagnosticPdfConfigirationService {
 	 * @return
 	 */
 	public DiagnosticPdfConfigiration update(DiagnosticPdfConfigiration diagnosticPdfConfigiration) {
+		String username = SecurityUtil.getUsername();
+		User user = this.userService.findByUsername(username);
+		diagnosticPdfConfigiration.setUserId(user.getId());
+		
 		return this.diagnosticPdfConfigirationRepository.save(diagnosticPdfConfigiration);
 	}
 

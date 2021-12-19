@@ -5,13 +5,13 @@ import java.util.Date;
 public class DiagnosisDto {
 	private Long id;
 	private Date created;
-	private Long studyId;
+	private Integer studyId;
 	private Long fileId;
 	private String title;
 	private String creator;
 	private String mimeType;
 
-	public DiagnosisDto(Long id, Date created, Long studyId, Long fileId, String title, String creator, String mimeType) {
+	public DiagnosisDto(Long id, Date created, Integer studyId, Long fileId, String title, String creator, String mimeType) {
 		super();
 		this.id = id;
 		this.created = created;
@@ -38,11 +38,11 @@ public class DiagnosisDto {
 		this.created = created;
 	}
 
-	public Long getStudyId() {
+	public Integer getStudyId() {
 		return studyId;
 	}
 
-	public void setStudyId(Long studyId) {
+	public void setStudyId(Integer studyId) {
 		this.studyId = studyId;
 	}
 

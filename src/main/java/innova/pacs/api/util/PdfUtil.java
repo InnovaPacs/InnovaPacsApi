@@ -5,6 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +26,8 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 import innova.pacs.api.Application;
 
 public class PdfUtil {
+	public static final String SIGNATURE_DATE_PATTERN = "yyyy-MM-dd hh:mm a";
+	public static final String BIRTHDATE_DATE_PATTERN = "yyyy-MM-dd";
 	private static Map<String, String> templates = new HashMap<>();
 	private static final Object lock = new Object();
 	
@@ -83,5 +92,58 @@ public class PdfUtil {
 		}
 
 		return array;
+	}
+	
+	public static String formatSignatureDate(Date date) {
+		try {
+			DateFormat dateFormat = new SimpleDateFormat(SIGNATURE_DATE_PATTERN);
+			return dateFormat.format(date);
+		} catch (Exception e) {
+		}
+
+		return "";
+	}
+	
+	public static String formatBirthDate(Date date) {
+		try {
+			DateFormat dateFormat = new SimpleDateFormat(BIRTHDATE_DATE_PATTERN);
+			return dateFormat.format(date);
+		} catch (Exception e) {
+		}
+
+		return "";
+	}
+	
+	/**
+	 * Convert date to LocalDate
+	 * @param date
+	 */
+	public static LocalDate convertDateToLocalDate (Date date) {
+		
+		if(date == null) {
+			return LocalDate.now();
+		}
+		
+		ZoneId defaultZoneId = ZoneId.systemDefault();
+		Instant instant = date.toInstant();
+		LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+		
+		return localDate;
+	}
+	
+	public static Date convertLocalDateToDate (LocalDate date) {
+		return java.util.Date.from(date.atStartOfDay()
+			      .atZone(ZoneId.systemDefault())
+			      .toInstant());
+	}
+	
+	/**
+	 * Get age form birth date
+	 * @param startDate
+	 * @return
+	 */
+	public static Integer getAgeFromBirthDate (LocalDate startDate) {
+		Period period = Period.between(startDate, LocalDate.now());
+		return period.getYears();
 	}
 }
