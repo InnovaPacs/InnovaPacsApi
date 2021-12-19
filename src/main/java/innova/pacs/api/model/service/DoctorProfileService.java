@@ -39,6 +39,10 @@ public class DoctorProfileService {
 	 * @return
 	 */
 	public DoctorProfile update(DoctorProfile doctorProfile) {
+		String username = SecurityUtil.getUsername();
+		User user = this.userService.findByUsername(username);
+		doctorProfile.setUserId(user.getId());
+		
 		return this.doctorProfileRepository.save(doctorProfile);
 	}
 
