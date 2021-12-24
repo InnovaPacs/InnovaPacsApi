@@ -143,5 +143,15 @@ public class DiagnosisService {
 
 		return innovaDiagnosticPdf;
 	}
+	
+	/**
+	 * Find by study id
+	 * 
+	 * @param studyId
+	 * @return
+	 */
+	public void deleteById(Long id) {
+		this.diagnosisRepository.deleteById(id);
+	}
 
 }

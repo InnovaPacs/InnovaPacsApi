@@ -26,7 +26,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 import innova.pacs.api.Application;
 
 public class PdfUtil {
-	public static final String SIGNATURE_DATE_PATTERN = "yyyy-MM-dd hh:mm a";
+	public static final String SIGNATURE_DATE_PATTERN = "yyyy-MM-dd";
 	public static final String BIRTHDATE_DATE_PATTERN = "yyyy-MM-dd";
 	private static Map<String, String> templates = new HashMap<>();
 	private static final Object lock = new Object();
