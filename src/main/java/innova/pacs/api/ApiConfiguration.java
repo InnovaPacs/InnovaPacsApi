@@ -11,9 +11,10 @@ public class ApiConfiguration implements WebMvcConfigurer{
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-		.allowedOrigins(HOST)
-		.allowedMethods(methods);
+		System.out.println("::::: ApiConfiguration :::::");
+        registry.addMapping("/**")
+        .allowedOrigins(HOST)
+        .allowedMethods(methods);
 		
 	}
 }
