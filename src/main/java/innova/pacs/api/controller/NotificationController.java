@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import innova.pacs.api.model.service.EmailService;
 import innova.pacs.api.model.service.StudyService;
 import innova.pacs.api.security.SmtpUtil;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/notifications")
 public class NotificationController {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import innova.pacs.api.model.DoctorProfile;
 import innova.pacs.api.model.service.DoctorProfileService;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/doctorProfile")
 public class DoctorProfileController {
