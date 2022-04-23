@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import innova.pacs.api.model.service.DiagnosisService;
 import innova.pacs.api.model.service.InnovaFileDiagnosticService;
 import innova.pacs.api.util.PdfUtil;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/diagnoses")
 public class DiagnosisController {

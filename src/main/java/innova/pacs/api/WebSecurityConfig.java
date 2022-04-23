@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("https://innova.pacs", "https://192.168.3.113:80"));
+		configuration.setAllowedOrigins(Arrays.asList("https://innova.pacs", "https://192.168.3.113:80", "http://192.168.3.113:80"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

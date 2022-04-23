@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import innova.pacs.api.model.InnovaFile;
 import innova.pacs.api.model.service.InnovaFileService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/innovaFiles")
 public class InnovaFileController {
