@@ -23,26 +23,26 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@GetMapping("/")
 	public List<UserV2Dto> getAll() {
 		return this.userService.userReport();
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@PostMapping("/")
 	public User Usercreate(@RequestBody User user) {
 		return this.userService.create(user);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@PutMapping("/{id}")
 	public User update(@PathVariable("id") Long id, @RequestBody User user) {
 		System.out.println("Pwd: "+user.getPassword());
 		return this.userService.update(id, user);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_ROOT"})
 	@GetMapping("/{id}")
 	public UserDto getById(@PathVariable("id") Long id) {
 		return this.userService.getById(id);
