@@ -1,7 +1,7 @@
 echo "Iniciando despliegue"
 #git pull
 
-CID=$(docker ps -aqf "name=innova-pacs-server")
+CID=$(docker ps -aqf "name=innova-pacs-server-c1")
 echo $CID
 
 echo "Detendiendo contenedor"
@@ -11,12 +11,12 @@ echo "Borrando contenedor"
 docker rm $CID
 
 echo "Borrando imagen"
-docker rmi innova-pacs-server:v1
+docker rmi innova-pacs-server-c1:v1
 
 echo "Creando jar de spring"
 mvn clean package -DskipTests -Dmaven.test.skip=true
  
-docker build -t innova-pacs-server:v1 .
-docker run -p 8081:8081 --network dcm4chee_default --name innova-pacs-server -d innova-pacs-server:v1
+docker build -t innova-pacs-server-c1:v1 .
+docker run -p 8085:8085 --network dcm4chee_default --name innova-pacs-server-c1 -d innova-pacs-server-c1:v1
 
 echo "Terminando despliegue"
