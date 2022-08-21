@@ -17,6 +17,6 @@ echo "Creando jar de spring"
 mvn clean package -DskipTests -Dmaven.test.skip=true
  
 docker build -t innova-pacs-server-c1:v1 .
-docker run -p 8085:8085 --network dcm4chee_default --name innova-pacs-server-c1 -d innova-pacs-server-c1:v1
+docker run -p 8090:8090 --network dcm4chee_default --name innova-pacs-server-c1 -d innova-pacs-server-c1:v1
 
 echo "Terminando despliegue"
