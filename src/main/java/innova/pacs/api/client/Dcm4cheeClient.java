@@ -53,6 +53,8 @@ public class Dcm4cheeClient {
 	private String id;
 	@Value("${dcm4chee.secret}")
 	private String secret;
+	@Value("${dcm4chee.ae.title}")
+	private String aeTitle;
 
 	/**
 	 * Get custom client
@@ -134,7 +136,7 @@ public class Dcm4cheeClient {
 	}
 
 	public void updateStudies() {
-		String updateUrl = String.format("http://%s:%s/dcm4chee-arc/aets/INNOVA_PACS/rs/studies", this.host, this.apiPort);
+		String updateUrl = String.format("http://%s:%s/dcm4chee-arc/aets/%s/rs/studies", this.host, this.apiPort, this.aeTitle);
 		HttpGet updaterequest = new HttpGet(updateUrl);
 		HttpClient httpClient;
 		try {
@@ -195,8 +197,8 @@ public class Dcm4cheeClient {
 	 */
 	public void export(String uuid, String aets) throws Exception {
 //		https://192.168.3.108:8443/dcm4chee-arc/aets/DCM4CHEE/rs/studies/1.2.392.200036.9125.2.20839136157173252.64951091883.41568/export/dicom:DCM4CHEE?
-		String url = String.format("http://%s:%s/dcm4chee-arc/aets/INNOVA_PACS/rs/studies/%s/export/dicom:%s?", this.host,
-				this.apiPort, uuid, aets);
+		String url = String.format("http://%s:%s/dcm4chee-arc/aets/%s/rs/studies/%s/export/dicom:%s?", this.host,
+				this.apiPort, this.aeTitle, uuid, aets);
 
 		System.out.println("Url: " + url);
 		HttpPost request = new HttpPost(url);
