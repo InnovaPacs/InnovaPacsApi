@@ -235,8 +235,7 @@ public class StudyService {
 						studyNotification.getFamilyName() != null ? studyNotification.getFamilyName() : "",
 						studyNotification.getGivenName() != null ? studyNotification.getGivenName() : "",
 						studyNotification.getMiddleName() != null ? studyNotification.getMiddleName() : ""));
-		templates.put("url", String.format("https://%s:%s/viewer.html?studyUID=%s", this.previewerHost,
-				this.previewerPort, studyNotification.getStudyIuid()));
+		templates.put("url", String.format("https://%s/viewer.html?studyUID=%s", this.previewerHost, studyNotification.getStudyIuid()));
 
 		emailService.sendMessageWithAttachment(studyNotification.getEmail(), "Innova Pacs",
 				SmtpUtil.transformFromTemplate(templates), null);
