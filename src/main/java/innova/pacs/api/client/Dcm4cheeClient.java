@@ -147,7 +147,7 @@ public class Dcm4cheeClient {
 			
 			int status = updteResponse.getStatusLine().getStatusCode();
 			
-			System.out.println("Update status: "+status);
+			System.out.println("#### Update status: "+status);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
