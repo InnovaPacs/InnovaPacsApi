@@ -34,10 +34,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowedOrigins(Arrays.asList(
-				"https://innova.pacs.persist.rocks",
-				"http://154.38.162.74:4210",
 				"http://localhost:4200",
-				"https://persist.rocks/"));
+				"https://persist.rocks/innova-pacs"));
 		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
