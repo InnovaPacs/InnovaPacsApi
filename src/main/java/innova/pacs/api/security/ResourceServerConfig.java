@@ -33,8 +33,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		//config.setAllowedOrigins("*");
-
 		config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://persist.rocks/innova-pacs", "https://persist.rocks"));
 		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		config.setAllowCredentials(true);
